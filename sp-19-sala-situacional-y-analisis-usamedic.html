@@ -664,5 +664,28 @@ NIVEL NACIONAL (DPCTB-MINSA)
   <p class="print-note">Material de estudio · ENCAPS SERUMS 2026-II</p>
 </footer>
 
+<div id="pw-gate" style="position:fixed;inset:0;z-index:9999;background:#f8fafc;display:flex;align-items:center;justify-content:center">
+<div style="text-align:center;font-family:'Poppins',sans-serif">
+<div style="font-size:2.5rem;margin-bottom:12px">🔒</div>
+<p style="color:#1e293b;font-weight:600;margin:0 0 16px;font-size:1.05rem">Ingresa la clave para acceder</p>
+<input id="pw-input" type="password" placeholder="Clave" style="padding:12px 18px;border:2px solid #e2e8f0;border-radius:12px;font-size:1rem;width:200px;text-align:center;font-family:inherit;outline:none" autofocus>
+<br><button onclick="checkPw()" style="margin-top:12px;padding:10px 32px;background:linear-gradient(135deg,#06b6d4,#3b82f6);color:#fff;border:none;border-radius:12px;font-size:.9rem;font-family:'Montserrat',sans-serif;font-weight:700;cursor:pointer">Entrar</button>
+<p id="pw-error" style="color:#ef4444;font-size:.82rem;margin-top:10px;display:none">Clave incorrecta</p>
+</div>
+</div>
+<script>
+(function(){
+if(sessionStorage.getItem('usa_ok')==='1'){document.getElementById('pw-gate').style.display='none';return}
+document.querySelector('main').style.display='none';
+document.querySelector('.hero').style.display='none';
+document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')checkPw()});
+})();
+function checkPw(){
+var v=document.getElementById('pw-input').value;
+if(v==='210894'){sessionStorage.setItem('usa_ok','1');document.getElementById('pw-gate').style.display='none';document.querySelector('main').style.display='';document.querySelector('.hero').style.display=''}
+else{document.getElementById('pw-error').style.display='block';document.getElementById('pw-input').value='';document.getElementById('pw-input').focus()}
+}
+</script>
+
 </body>
 </html>

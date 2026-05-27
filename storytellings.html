@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Storytelling SERUMS · USAMEDIC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff;
+  --bg-soft:#fbfbfa;
+  --text:#37352f;
+  --text-soft:#787774;
+  --text-dim:#9b9a97;
+  --border:#e9e9e7;
+  --border-strong:#d3d2cf;
+  --hover:#f7f7f5;
+  --usamedic:#2A7DE1;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+  font-size:15px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* Top bar — minimal, Notion-ish */
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 28px;
+  border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.85);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.topbar .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+.topbar .brand img{height:28px}
+.topbar .brand strong{font-weight:700;font-size:.9rem;color:var(--usamedic)}
+.topbar .brand small{display:block;color:var(--text-soft);font-size:.7rem}
+.topbar .nav-links{display:flex;gap:18px;font-size:.85rem}
+.topbar .nav-links a{color:var(--text-soft);text-decoration:none;font-weight:500;transition:color .15s}
+.topbar .nav-links a:hover{color:var(--text)}
+
+/* Page header */
+.page{max-width:1180px;margin:0 auto;padding:56px 32px 80px}
+.page-header{margin-bottom:36px}
+.page-header .icon{font-size:3rem;line-height:1;margin-bottom:12px}
+.page-header h1{
+  font-family:'Inter',sans-serif;
+  font-size:2.4rem;
+  font-weight:700;
+  letter-spacing:-.02em;
+  margin:0 0 6px;
+  color:var(--text);
+}
+.page-header .description{
+  color:var(--text-soft);
+  font-size:1rem;
+  margin:0 0 16px;
+  max-width:680px;
+  line-height:1.6;
+}
+.page-header .stats{
+  display:flex;
+  gap:18px;
+  align-items:center;
+  font-size:.78rem;
+  color:var(--text-dim);
+  padding-top:14px;
+  border-top:1px solid var(--border);
+}
+.page-header .stats span{display:flex;align-items:center;gap:5px}
+.page-header .stats .dot{width:6px;height:6px;border-radius:50%;background:var(--text-dim)}
+
+/* Filter chips — Notion-like tags */
+.filter-row{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 28px}
+.filter-chip{
+  background:var(--bg-soft);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:5px 11px;
+  font-size:.75rem;
+  color:var(--text-soft);
+  cursor:pointer;
+  font-family:inherit;
+  font-weight:500;
+  transition:all .15s;
+}
+.filter-chip:hover{background:var(--hover);border-color:var(--border-strong);color:var(--text)}
+.filter-chip.active{background:var(--text);color:#fff;border-color:var(--text)}
+
+/* Grid */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:14px;
+}
+
+/* Card — Notion gallery view */
+.card{
+  border:1px solid var(--border);
+  border-radius:6px;
+  overflow:hidden;
+  background:var(--bg);
+  cursor:pointer;
+  text-decoration:none;
+  color:inherit;
+  display:flex;
+  flex-direction:column;
+  transition:background .15s,box-shadow .15s,border-color .15s;
+}
+.card:hover{
+  background:var(--bg-soft);
+  border-color:var(--border-strong);
+  box-shadow:0 4px 14px rgba(15,15,15,.06);
+}
+
+/* Cover — cielo gradient + montañas */
+.cover{
+  position:relative;
+  height:140px;
+  overflow:hidden;
+  isolation:isolate;
+}
+.cover::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-2;
+}
+.cover .sun{
+  position:absolute;
+  border-radius:50%;
+  z-index:-1;
+  pointer-events:none;
+}
+.cover svg.mountains{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  width:100%;
+  height:75%;
+  z-index:-1;
+}
+
+/* Sky themes (matching storytelling) */
+.sky-dawn::before{background:linear-gradient(180deg,#FFE5C7 0%,#FFC88C 22%,#1BACE4 62%,#2A7DE1 100%)}
+.sky-rainy::before{background:linear-gradient(180deg,#5a6b7c 0%,#3a4b5c 50%,#1a2b3c 100%)}
+.sky-noon::before{background:linear-gradient(180deg,#eaf6fb 0%,#1DCAD3 55%,#1BACE4 100%)}
+.sky-open::before{background:linear-gradient(180deg,#a5d8f0 0%,#1BACE4 50%,#2A7DE1 100%)}
+.sky-dusk::before{background:linear-gradient(180deg,#FFC88C 0%,#FF8966 35%,#E55B4C 60%,#5a6b7c 100%)}
+.sky-twilight::before{background:linear-gradient(180deg,#FFB088 0%,#5a6b7c 28%,#1a2b3c 65%,#0a1525 100%)}
+.sky-night::before{background:linear-gradient(180deg,#0a1525 0%,#1a2b3c 70%,#2A7DE1 100%)}
+.sky-morning::before{background:linear-gradient(180deg,#FFE5C7 0%,#1DCAD3 40%,#2A7DE1 100%)}
+
+/* Content */
+.content{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column}
+.content .top-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.content .emoji{font-size:1rem}
+.content .area-badge{
+  font-size:.65rem;
+  font-weight:600;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  padding:2px 7px;
+  border-radius:3px;
+  color:var(--text-soft);
+}
+.area-cis{background:rgba(59,130,246,.1);color:#2563eb}
+.area-ei{background:rgba(245,158,11,.12);color:#b45309}
+.area-gss{background:rgba(124,58,237,.1);color:#6d28d9}
+.area-inv{background:rgba(220,38,38,.1);color:#b91c1c}
+.area-sp{background:rgba(16,185,129,.1);color:#059669}
+
+.content .title{
+  font-family:'Inter',sans-serif;
+  font-weight:600;
+  font-size:.98rem;
+  line-height:1.3;
+  color:var(--text);
+  margin:0 0 6px;
+  letter-spacing:-.005em;
+}
+.content .title em{
+  font-style:normal;
+  color:var(--text);
+}
+.content .desc{
+  font-size:.81rem;
+  color:var(--text-soft);
+  line-height:1.5;
+  margin:0;
+  flex:1;
+}
+.content .meta{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:.7rem;
+  color:var(--text-dim);
+}
+.content .code-pill{
+  background:var(--bg-soft);
+  padding:2px 7px;
+  border-radius:3px;
+  font-weight:500;
+  border:1px solid var(--border);
+}
+
+/* Footer */
+.footer{
+  max-width:1180px;
+  margin:60px auto 0;
+  padding:24px 32px 40px;
+  text-align:center;
+  font-size:.78rem;
+  color:var(--text-dim);
+  border-top:1px solid var(--border);
+}
+.footer a{color:var(--usamedic);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+
+@media(max-width:640px){
+  .topbar{padding:12px 18px}
+  .topbar .nav-links{display:none}
+  .page{padding:36px 18px 60px}
+  .page-header h1{font-size:1.7rem}
+  .cards{grid-template-columns:1fr;gap:12px}
+  .cover{height:120px}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+<a class="brand" href="/usamedic-encaps-manuales/">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NSIgZmlsbD0iIzJBN0RFMSIvPjxwYXRoIGQ9Ik0zMCw1MCBoNDAgTTUwLDMwIHY0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=" alt="USAMEDIC">
+<div>
+<strong>USAMEDIC</strong>
+<small>Médicos de Excelencia</small>
+</div>
+</a>
+<nav class="nav-links">
+<a href="/usamedic-encaps-manuales/">Manuales</a>
+<a href="https://www.usamedic.pe" target="_blank">Web</a>
+</nav>
+</header>
+
+<main class="page">
+
+<div class="page-header">
+<div class="icon">🎬</div>
+<h1>Storytelling SERUMS</h1>
+<p class="description">Diez historias clínicas interactivas. Vivís el caso, tomás decisiones, recibís feedback de la norma técnica. Cada capítulo cubre niveles 1 a 3 de Dreyfus, con paisajes parallax estilo Alto's Adventure y Q-Bank ENAM al final.</p>
+<div class="stats">
+<span><span class="dot"></span>10 storytellings</span>
+<span><span class="dot"></span>90 capítulos · 60 preguntas Q-Bank</span>
+<span><span class="dot"></span>NTS MINSA vigente</span>
+</div>
+</div>
+
+<div class="filter-row">
+<button class="filter-chip active" data-filter="all">Todos</button>
+<button class="filter-chip" data-filter="cis">CIS · Cuidado Integral</button>
+<button class="filter-chip" data-filter="ei">EI · Ética e Intercultural</button>
+<button class="filter-chip" data-filter="gss">GSS · Gestión</button>
+<button class="filter-chip" data-filter="inv">INV · Investigación</button>
+<button class="filter-chip" data-filter="sp">SP · Salud Pública</button>
+</div>
+
+<div class="cards" id="cards-grid">
+
+<a href="cis-217-storytelling-marisol-y-los-tres-virus-usamedic.html" class="card" data-area="cis">
+<div class="cover sky-rainy">
+<span class="sun" style="width:55px;height:55px;background:#5a6b7c;top:18%;left:78%;opacity:.5"></span>
+<svg class="mountains" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice"><path d="M0,400 L0,290 Q100,240 200,275 Q300,310 400,255 Q500,210 620,260 L720,310 Q820,255 940,290 Q1060,320 1200,275 L1200,400 Z" fill="#1a2b3c" opacity=".7"/><path d="M0,400 L0,330 Q80,295 160,320 Q260,355 360,310 Q460,275 580,315 Q680,345 800,305 Q920,275 1040,325 Q1140,360 1200,335 L1200,400 Z" fill="#050a15" opacity=".9"/></svg>
+</div>
+<div class="content">
+<div class="top-row"><span class="emoji">🤰</span><span class="area-badge area-cis">CIS · 2.17</span></div>
+<h3 class="title">Marisol y los <em>tres virus</em></h3>
+<p class="desc">Gestante 19 años, primer CPN a las 28 semanas. PRD reactiva: VIH + sífilis + Hep B. Same day testing, same day treatment.</p>
+<div class="meta"><span class="code-pill">PTMI · NTS 159</span><span>9 caps · 6 Q</span></div>
+</div>
+</a>
+
+<a href="sp-29-storytelling-yenifer-y-la-sangre-que-falta-usamedic.html" class="card" data-area="sp">
+<div class="cover sky-dawn">
+<span class="sun" style="width:90px;height:90px;background:#FFB088;top:18%;left:68%;box-shadow:0 0 50px #FFB08866"></span>
+<svg class="mountains" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice"><path d="M0,400 L0,260 Q120,200 220,230 Q320,255 420,210 Q540,170 660,220 Q780,260 900,200 Q1020,160 1140,225 L1200,250 L1200,400 Z" fill="#2A7DE1" opacity=".55"/><path d="M0,400 L0,330 Q80,295 160,320 Q260,355 360,310 Q460,275 580,315 Q680,345 800,305 Q920,275 1040,325 Q1140,360 1200,335 L1200,400 Z" fill="#1a2b3c" opacity=".85"/></svg>
+</div>
+<div class="content">
+<div class="top-row"><span class="emoji">👶</span><span class="area-badge area-sp">SP · 2.9</span></div>
+<h3 class="title">Yenifer y la <em>sangre que falta</em></h3>
+<p class="desc">Niña de 18 meses en Yungay (3,400 msnm). Hb 10.8 parece normal — corregida da 8.7: anemia moderada oculta por la altitud.</p>
+<div class="meta"><span class="code-pill">Anemia · NTS 213</span><span>9 caps · 6 Q</span></div>
+</div>
+</a>
+
+<a href="sp-18-storytelling-joel-y-el-brote-que-llego-con-la-lluvia-usamedic.html" class="card" data-area="sp">
+<div class="cover sky-open">
+<span class="sun" style="width:75px;height:75px;background:#FFE5C7;top:15%;left:75%;box-shadow:0 0 40px #FFE5C788"></span>
+<svg class="mountains" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice"><path d="M0,400 L0,260 Q120,200 220,230 Q320,255 420,210 Q540,170 660,220 Q780,260 900,200 Q1020,160 1140,225 L1200,250 L1200,400 Z" fill="#2A7DE1" opacity=".5"/><path d="M0,400 L0,330 Q80,295 160,320 Q260,355 360,310 Q460,275 580,315 Q680,345 800,305 Q920,275 1040,325 Q1140,360 1200,335 L1200,400 Z" fill="#0a1525" opacity=".85"/></svg>
+</div>
+<div class="content">
+<div class="top-row"><span class="emoji">🦟</span><span class="area-badge area-sp">SP · 1.8</span></div>
+<h3 class="title">Joel y el brote que <em>llegó con la lluvia</em></h3>
+<p class="desc">Tambogrande, Piura. 5 febriles en 5 días vs. media histórica 1-2. Los 10 pasos CDC + control vectorial Ross-Macdonald.</p>
+<div class="meta"><span class="code-pill">Brote dengue · NTS 211</span><span>9 caps · 6 Q</span></div>
+</div>
+</a>
+
+<a href="cis-210-storytelling-lucia-y-el-ojo-blanco-usamedic.html" class="card" data-area="cis">
+<div class="cover sky-twilight">
+<span class="sun" style="width:48px;height:48px;background:#FFB088;top:24%;left:22%;opacity:.85"></span>
+<svg class="mountains" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice"><path d="M0,400 L0,290 Q100,240 200,275 Q300,310 400,255 Q500,210 620,260 L720,310 Q820,255 940,290 Q1060,320 1200,275 L1200,400 Z" fill="#1a2b3c" opacity=".75"/><path d="M0,400 L0,330 Q80,295 160,320 Q260,355 360,310 Q460,275 580,315 Q680,345 800,305 Q920,275 1040,325 Q1140,360 1200,335 L1200,400 Z" fill="#050a15" opacity=".9"/></svg>
+</div>
+<div class="content">
+<div class="top-row"><span class="emoji">👁️</span><span class="area-badge area-cis">CIS · 2.10</span></div>
+<h3 class="title">Lucía y el <em>ojo blanco</em></h3>
+<p class="desc">Madre detecta leucocoria en su hija de 2 años. Signos de alarma oncológica, referencia, emergencias en posta rural.</p>
+<div class="meta"><span class="code-pill">Cáncer · referencia</span><span>9 caps · 6 Q</span></div>
+</div>
+</a>
+
+<a href="cis-215-storytelling-lucia-y-los-tres-tamizajes-usamedic.html" class="card" data-area="cis">
+<div class="cover sky-dusk">
+<span class="sun" style="width:120px;height:120px;background:#FF8966;top:50%;left:72%;box-shadow:0 0 60px #FF896666"></span>
+<svg class="mountains" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice"><path d="M0,400 L0,290 Q100,240 200,275 Q300,310 400,255 Q500,210 620,260 L720,310 Q820,255 940,290 Q1060,320 1200,275 L1200,400 Z" fill="#5a6b7c" opacity=".7"/><path d="M0,400 L0,330 Q80,295 160,320 Q260,355 360,310 Q460,275 580,315 Q680,345 800,305 Q920,275 1040,325 Q1140,360 1200,335 L1200,400 Z" fill="#1a2b3c" opacity=".9"/></svg>
+</div>
+<div class="content">
+<div class="top-row"><span class="emoji">🩸</span><span class="area-badge area-cis">CIS · 2.15</span></div>
+<h3 class="title">Lucía y los <em>tres tamizajes</em></h3>
+<p class="desc">Adolescente con relación de riesgo reciente. Síndromes ITS, dx VIH, hepatitis B y C, consejería sin juicio.</p>
+<div class="meta"><span class="code-pill">ITS · VIH · NTS 240</span><span>9 caps · 6 Q</span></div>
+</div>
+</a>
+
+<a href="cis-216-storytelling-kevin-y-la-prevencion-combinada-usamedic.html" class="card" data-area="cis">
+<div class="cover sky-twilight">
+<span class="sun" style="width:60px;height:60px;background:#F5F5DC;top:22%;left:18%;opacity:.9"></span>
+<svg class="mountains" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice"><path d="M0,400 L0,290 Q100,240 200,275 Q300,310 400,255 Q500,210 620,260 L720,310 Q820,255 940,290 Q1060,320 1200,275 L1200,400 Z" fill="#1a2b3c" opacity=".75"/><path d="M0,400 L0,330 Q80,295 160,320 Q260,355 360,310 Q460,275 580,315 Q680,345 800,305 Q920,275 1040,325 Q1140,360 1200,335 L1200,400 Z" fill="#0a1525" opacity=".9"/></svg>
+</div>
+<div class="content">
+<div class="top-row"><span class="emoji">🛡️</span><span class="area-badge area-cis">CIS · 2.16</span></div>
+<h3 class="title">Kevin y la <em>prevención combinada</em></h3>
+<p class="desc">Joven HSH consulta por PrEP. Distinción PrEP/PEP, criterios, poblaciones clave, seguimiento sin estigma.</p>
+<div class="meta"><span class="code-pill">PrEP/PEP · NTS 204</span><span>9 caps · 6 Q</span></div>
+</div>
+</a>
+
+<a href="ei-23-storytelling-rosa-y-el-parto-que-nadie-tradujo-usamedic.html" class="card" data-area="ei">
+<div class="cover sky-morning">
+<span class="sun" style="width:95px;height:95px;background:#FFE5C7;top:20%;left:72%;box-shadow:0 0 50px #FFE5C788"></span>
+<svg class="mountains" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice"><path d="M0,400 L0,260 Q120,200 220,230 Q320,255 420,210 Q540,170 660,220 Q780,260 900,200 Q1020,160 1140,225 L1200,250 L1200,400 Z" fill="#2A7DE1" opacity=".5"/><path d="M0,400 L0,330 Q80,295 160,320 Q260,355 360,310 Q460,275 580,315 Q680,345 800,305 Q920,275 1040,325 Q1140,360 1200,335 L1200,400 Z" fill="#1a2b3c" opacity=".85"/></svg>
+</div>
+<div class="content">
+<div class="top-row"><span class="emoji">🏔️</span><span class="area-badge area-ei">EI · 2.3</span></div>
+<h3 class="title">Rosa y el parto que <em>nadie tradujo</em></h3>
+<p class="desc">Comunidad altoandina, partera tradicional y SERUMS. Pertinencia cultural en parto vertical sin perder seguridad clínica.</p>
+<div class="meta"><span class="code-pill">Parto intercultural</span><span>9 caps · 6 Q</span></div>
+</div>
+</a>
+
+<a href="gss-24-storytelling-pedro-y-el-puente-que-casi-se-cae-usamedic.html" class="card" data-area="gss">
+<div class="cover sky-night">
+<span class="sun" style="width:38px;height:38px;background:#F5F5DC;top:15%;left:78%;box-shadow:0 0 25px #F5F5DC99"></span>
+<svg class="mountains" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice"><path d="M0,400 L0,290 Q100,240 200,275 Q300,310 400,255 Q500,210 620,260 L720,310 Q820,255 940,290 Q1060,320 1200,275 L1200,400 Z" fill="#0a1525" opacity=".8"/><path d="M0,400 L0,330 Q80,295 160,320 Q260,355 360,310 Q460,275 580,315 Q680,345 800,305 Q920,275 1040,325 Q1140,360 1200,335 L1200,400 Z" fill="#020410" opacity=".95"/></svg>
+</div>
+<div class="content">
+<div class="top-row"><span class="emoji">🚑</span><span class="area-badge area-gss">GSS · 2.4</span></div>
+<h3 class="title">Pedro y el puente que <em>casi se cae</em></h3>
+<p class="desc">Madrugada en posta rural. Trauma con shock que necesita traslado. Sistema de referencia y contrarreferencia.</p>
+<div class="meta"><span class="code-pill">Referencia · NTS</span><span>9 caps · 6 Q</span></div>
+</div>
+</a>
+
+<a href="inv-13-storytelling-diana-y-la-pregunta-correcta-usamedic.html" class="card" data-area="inv">
+<div class="cover sky-dawn">
+<span class="sun" style="width:100px;height:100px;background:#FFB088;top:20%;left:70%;box-shadow:0 0 55px #FFB08866"></span>
+<svg class="mountains" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice"><path d="M0,400 L0,260 Q120,200 220,230 Q320,255 420,210 Q540,170 660,220 Q780,260 900,200 Q1020,160 1140,225 L1200,250 L1200,400 Z" fill="#1BACE4" opacity=".5"/><path d="M0,400 L0,330 Q80,295 160,320 Q260,355 360,310 Q460,275 580,315 Q680,345 800,305 Q920,275 1040,325 Q1140,360 1200,335 L1200,400 Z" fill="#1a2b3c" opacity=".85"/></svg>
+</div>
+<div class="content">
+<div class="top-row"><span class="emoji">🔬</span><span class="area-badge area-inv">INV · 1.3</span></div>
+<h3 class="title">Diana y la <em>pregunta correcta</em></h3>
+<p class="desc">SERUMS detecta patrón en su comunidad y quiere investigar. Descriptivo vs analítico vs experimental: la pregunta define el diseño.</p>
+<div class="meta"><span class="code-pill">Diseño de estudio</span><span>9 caps · 6 Q</span></div>
+</div>
+</a>
+
+<a href="inv-32-storytelling-el-protocolo-de-mama-eulalia-usamedic.html" class="card" data-area="inv">
+<div class="cover sky-morning">
+<span class="sun" style="width:110px;height:110px;background:#FFE5C7;top:18%;left:68%;box-shadow:0 0 60px #FFE5C788"></span>
+<svg class="mountains" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice"><path d="M0,400 L0,260 Q120,200 220,230 Q320,255 420,210 Q540,170 660,220 Q780,260 900,200 Q1020,160 1140,225 L1200,250 L1200,400 Z" fill="#2A7DE1" opacity=".5"/><path d="M0,400 L0,330 Q80,295 160,320 Q260,355 360,310 Q460,275 580,315 Q680,345 800,305 Q920,275 1040,325 Q1140,360 1200,335 L1200,400 Z" fill="#1a2b3c" opacity=".85"/></svg>
+</div>
+<div class="content">
+<div class="top-row"><span class="emoji">⚖️</span><span class="area-badge area-inv">INV · 3.2</span></div>
+<h3 class="title">El protocolo de <em>mamá Eulalia</em></h3>
+<p class="desc">Protocolo frente al Comité de Ética. Belmont, consentimiento informado, riesgo-beneficio, conflictos de interés.</p>
+<div class="meta"><span class="code-pill">Bioética · CEI</span><span>9 caps · 6 Q</span></div>
+</div>
+</a>
+
+</div>
+</main>
+
+<footer class="footer">
+<p>USAMEDIC · Médicos de Excelencia · <a href="https://www.usamedic.pe">usamedic.pe</a></p>
+<p>Storytelling SERUMS · Niveles Dreyfus N1+N2+N3 · NTS MINSA vigente · <code>source_gated</code></p>
+</footer>
+
+<script>
+document.querySelectorAll('.filter-chip').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-chip').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    document.querySelectorAll('.card').forEach(c=>{
+      c.style.display=(f==='all'||c.dataset.area===f)?'':'none';
+    });
+  });
+});
+</script>
+
+</body>
+</html>

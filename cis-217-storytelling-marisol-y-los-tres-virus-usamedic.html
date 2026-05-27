@@ -151,6 +151,15 @@ body{font-family:var(--font-body);color:#fff;line-height:1.65;font-weight:400}
 .qbank-q .stem{font-family:var(--font-display);font-weight:500;font-size:1rem;margin-bottom:12px;line-height:1.5}
 .qbank-q .stem .num{font-weight:700;color:var(--primary);margin-right:5px}
 .qbank-q .stem .star{color:var(--warning);margin-left:5px}
+.qbank-q .options{display:flex;flex-direction:column;gap:9px;margin:10px 0 0}
+.qbank-q .opt{text-align:left;background:#fff;border:1.5px solid rgba(26,43,60,.12);padding:11px 15px;border-radius:10px;cursor:pointer;font-family:var(--font-body);font-size:.92rem;color:var(--dark);transition:.18s;font-weight:400;width:100%;display:block;line-height:1.5}
+.qbank-q .opt:hover:not(.locked){border-color:var(--secondary);background:rgba(29,202,211,.08);transform:translateX(3px)}
+.qbank-q .opt.correct{border-color:var(--success);background:rgba(16,185,129,.18);color:#065f46;font-weight:500}
+.qbank-q .opt.wrong{border-color:var(--danger);background:rgba(239,68,68,.14);color:#991b1b;font-weight:500}
+.qbank-q .opt.locked{cursor:default}
+.qbank-q .feedback{margin-top:14px;padding:14px 16px;border-radius:10px;font-size:.9rem;line-height:1.6;animation:fadeUp .3s}
+.qbank-q .feedback.ok{background:rgba(16,185,129,.12);border-left:4px solid var(--success);color:#065f46}
+.qbank-q .feedback.bad{background:rgba(239,68,68,.08);border-left:4px solid var(--danger);color:#991b1b}
 .qbank-q .meta-row{display:flex;justify-content:space-between;margin-top:10px;font-size:.72rem;opacity:.7;font-style:italic}
 
 /* Rain / stars */

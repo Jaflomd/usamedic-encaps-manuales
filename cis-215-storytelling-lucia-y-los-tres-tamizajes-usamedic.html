@@ -1,0 +1,840 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Lucía y los tres tamizajes · Una historia SERUMS · USAMEDIC</title>
+<link rel="icon" href="data:image/png;base64,__ISOTIPO_B64__" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;700;800&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --primary:#2A7DE1; --secondary:#1DCAD3; --accent:#1BACE4;
+  --dark:#1a2b3c; --medium:#5a6b7c; --light:#eaf6fb; --bg-soft:#f5fbfd; --white:#ffffff;
+  --success:#10b981; --warning:#f59e0b; --danger:#ef4444;
+  --warm-1:#FFE5C7; --warm-2:#FFC88C; --warm-3:#FF8966; --warm-4:#E55B4C;
+  --night-1:#0a1525; --night-2:#050a15;
+  --font-display:'Fraunces',Georgia,serif;
+  --font-body:'Inter',system-ui,sans-serif;
+  --font-brand:'Montserrat',sans-serif;
+}
+*{box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#050a15}
+body{font-family:var(--font-body);color:#fff;line-height:1.65;font-weight:400}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:300;background:linear-gradient(135deg,rgba(29,202,211,.92) 0%,rgba(42,125,225,.92) 100%);color:#fff;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 6px 20px rgba(0,0,0,.25);backdrop-filter:blur(10px)}
+.topbar .brand{display:flex;align-items:center;gap:11px}
+.topbar .brand img{height:32px;filter:brightness(0) invert(1)}
+.topbar .brand strong{font-family:var(--font-brand);font-weight:800;font-size:.88rem;letter-spacing:.5px;display:block;line-height:1}
+.topbar .brand small{font-family:var(--font-brand);font-weight:300;font-size:.68rem;opacity:.95}
+.topbar .meta{font-size:.74rem;opacity:.95;display:flex;gap:7px;align-items:center}
+.topbar .chip{background:rgba(255,255,255,.18);padding:4px 10px;border-radius:999px;font-weight:500;font-size:.7rem}
+
+.carousel{position:fixed;top:54px;bottom:0;left:0;right:0;overflow:hidden}
+.track{display:flex;height:100%;width:100%;transition:transform .85s cubic-bezier(.65,.05,.36,1);will-change:transform}
+.slide{flex:0 0 100vw;width:100vw;height:100%;position:relative;overflow:hidden;isolation:isolate}
+
+.sky{position:absolute;inset:0;z-index:-5}
+.layer{position:absolute;inset:0;z-index:-1;will-change:transform;pointer-events:none;transition:transform .15s ease-out}
+.layer svg{position:absolute;left:-5%;right:-5%;bottom:0;width:110%;height:auto;display:block}
+.layer.distant{z-index:-4;opacity:.5}
+.layer.mid{z-index:-3;opacity:.78}
+.layer.near{z-index:-2}
+.layer.fore{z-index:-1}
+.celestial{position:absolute;border-radius:50%;z-index:-4;transition:transform .15s ease-out;will-change:transform}
+
+.scene-content{position:relative;z-index:5;height:100%;overflow-y:auto;overflow-x:hidden;padding:48px 32px 90px;display:flex;justify-content:center;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+.scene-content::-webkit-scrollbar{width:6px}
+.scene-content::-webkit-scrollbar-track{background:transparent}
+.scene-content::-webkit-scrollbar-thumb{background:rgba(255,255,255,.25);border-radius:3px}
+.scene-content.dark-text::-webkit-scrollbar-thumb{background:rgba(26,43,60,.2)}
+.scene-inner{max-width:720px;width:100%;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.18)}
+.scene-content.dark-text .scene-inner{color:var(--dark);text-shadow:none}
+
+.eyebrow{text-transform:uppercase;letter-spacing:4px;font-size:.7rem;font-weight:600;opacity:.88;margin:0 0 14px;font-family:var(--font-body)}
+.scene-inner h1{font-family:var(--font-display);font-weight:300;font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.05;margin:0 0 18px;letter-spacing:-.02em;font-variation-settings:"opsz" 144}
+.scene-inner h1 em{font-style:italic;font-weight:500}
+.scene-inner h2{font-family:var(--font-display);font-weight:400;font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.15;margin:0 0 14px;letter-spacing:-.01em}
+.scene-inner h2 em{font-style:italic}
+.scene-inner h3{font-family:var(--font-display);font-weight:500;font-size:1.18rem;margin:26px 0 10px;line-height:1.3}
+.narration{font-size:1.05rem;line-height:1.75;margin:0 0 18px;max-width:62ch;font-weight:400;text-shadow:0 1px 3px rgba(0,0,0,.18)}
+.scene-content.dark-text .narration{font-weight:400;text-shadow:none}
+.narration em{font-style:italic;font-weight:500}
+.tagline-row{margin-top:22px;display:flex;flex-wrap:wrap;gap:7px}
+.tagline-row .pill{padding:6px 13px;border-radius:999px;font-size:.72rem;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);font-weight:500;letter-spacing:.4px;text-shadow:none}
+.scene-content.dark-text .pill{background:rgba(26,43,60,.08);border-color:rgba(26,43,60,.15);color:var(--dark)}
+
+.character{display:flex;gap:14px;align-items:flex-start;padding:14px 18px;border-radius:14px;margin:12px 0;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.18);transition:.25s}
+.scene-content.dark-text .character{background:rgba(255,255,255,.7);border-color:rgba(26,43,60,.08)}
+.character.luci{border-left:3px solid var(--secondary)}
+.character.lucia{border-left:3px solid #c084fc}
+.character.pareja{border-left:3px solid #94a3b8}
+.character.norma{border-left:3px solid var(--warning)}
+.character.serums{border-left:3px solid var(--accent)}
+.silhouette{width:48px;height:58px;flex-shrink:0;display:flex;align-items:flex-end;justify-content:center}
+.silhouette svg{width:100%;height:100%}
+.char-body{flex:1;min-width:0}
+.char-name{font-family:var(--font-brand);font-weight:700;font-size:.78rem;letter-spacing:.5px;margin-bottom:3px;display:flex;flex-wrap:wrap;align-items:center;gap:7px;text-shadow:none}
+.char-name .role{font-family:var(--font-body);font-weight:300;font-size:.66rem;opacity:.75;text-transform:uppercase;letter-spacing:1.3px}
+.char-line{margin:0;font-size:.95rem;line-height:1.6;font-weight:400;text-shadow:none}
+.level-badge{display:inline-block;padding:2px 8px;border-radius:999px;font-family:var(--font-brand);font-weight:700;font-size:.62rem;letter-spacing:1.1px}
+.level-badge.n1{background:rgba(16,185,129,.3);color:#a7f3d0;border:1px solid rgba(16,185,129,.5)}
+.level-badge.n2{background:rgba(245,158,11,.3);color:#fde68a;border:1px solid rgba(245,158,11,.5)}
+.level-badge.n3{background:rgba(239,68,68,.3);color:#fecaca;border:1px solid rgba(239,68,68,.5)}
+.scene-content.dark-text .level-badge.n1{color:#15803d}
+.scene-content.dark-text .level-badge.n2{color:#b45309}
+.scene-content.dark-text .level-badge.n3{color:#b91c1c}
+
+.callout{padding:18px 22px;border-radius:16px;margin:16px 0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.18);border-left:4px solid var(--secondary)}
+.scene-content.dark-text .callout{background:rgba(255,255,255,.78);border-color:rgba(26,43,60,.08);border-left-color:var(--secondary)}
+.callout.rule{border-left-color:var(--accent)}
+.callout.trap{border-left-color:var(--danger);background:rgba(0,0,0,.42)}
+.scene-content.dark-text .callout.trap{background:rgba(239,68,68,.08)}
+.callout.gold{border-left-color:var(--warning);background:rgba(0,0,0,.38)}
+.scene-content.dark-text .callout.gold{background:rgba(245,158,11,.08)}
+.callout h4{margin:0 0 9px;font-family:var(--font-brand);font-weight:700;font-size:.76rem;text-transform:uppercase;letter-spacing:1.7px;color:#9eeaef;text-shadow:none}
+.callout.trap h4{color:#fca5a5}
+.callout.gold h4{color:#fcd34d}
+.scene-content.dark-text .callout h4{color:var(--primary)}
+.scene-content.dark-text .callout.trap h4{color:var(--danger)}
+.scene-content.dark-text .callout.gold h4{color:#b45309}
+.callout p,.callout li{margin:.3em 0;font-size:.93rem;line-height:1.6;text-shadow:none}
+.callout code{background:rgba(0,0,0,.4);padding:1px 7px;border-radius:5px;font-size:.85em;font-family:'SF Mono',Menlo,monospace}
+.scene-content.dark-text .callout code{background:rgba(26,43,60,.08);color:var(--primary)}
+.callout ul,.callout ol{margin:.3em 0;padding-left:1.3em}
+
+.decision{background:rgba(0,0,0,.42);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.22);border-radius:18px;padding:22px 24px;margin:20px 0;box-shadow:0 12px 36px rgba(0,0,0,.35)}
+.scene-content.dark-text .decision{background:rgba(255,255,255,.88);border-color:rgba(26,43,60,.1);box-shadow:0 12px 36px rgba(26,43,60,.12)}
+.decision .q{font-family:var(--font-display);font-weight:500;font-size:1.1rem;margin:0 0 14px;line-height:1.4;text-shadow:none}
+.decision .options{display:flex;flex-direction:column;gap:9px}
+.decision .opt{text-align:left;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.22);padding:12px 16px;border-radius:11px;cursor:pointer;font-family:var(--font-body);font-size:.93rem;color:inherit;transition:.18s;font-weight:400;text-shadow:none}
+.scene-content.dark-text .decision .opt{background:rgba(255,255,255,.6);border-color:rgba(26,43,60,.12)}
+.decision .opt:hover:not(.locked){border-color:var(--secondary);background:rgba(29,202,211,.18);transform:translateX(3px)}
+.decision .opt.correct{border-color:var(--success);background:rgba(16,185,129,.22);font-weight:500}
+.decision .opt.wrong{border-color:var(--danger);background:rgba(239,68,68,.18)}
+.decision .opt.locked{cursor:default}
+.decision .feedback{margin-top:14px;padding:14px 16px;border-radius:10px;font-size:.9rem;line-height:1.6;animation:fadeUp .3s;text-shadow:none}
+.decision .feedback.ok{background:rgba(16,185,129,.2);border-left:4px solid var(--success)}
+.decision .feedback.bad{background:rgba(239,68,68,.16);border-left:4px solid var(--danger)}
+.scene-content.dark-text .decision .feedback.ok{background:rgba(16,185,129,.12)}
+.scene-content.dark-text .decision .feedback.bad{background:rgba(239,68,68,.08)}
+
+.scene-inner table{width:100%;border-collapse:collapse;margin:16px 0;font-family:var(--font-body);font-size:.88rem;border-radius:12px;overflow:hidden;backdrop-filter:blur(8px);background:rgba(0,0,0,.3)}
+.scene-content.dark-text table{background:rgba(255,255,255,.65)}
+.scene-inner thead{background:linear-gradient(135deg,rgba(29,202,211,.5),rgba(42,125,225,.5))}
+.scene-content.dark-text thead{background:linear-gradient(135deg,#1DCAD3,#2A7DE1)}
+.scene-inner thead th{padding:10px 13px;text-align:left;font-weight:600;font-size:.78rem;letter-spacing:.5px;text-shadow:none}
+.scene-content.dark-text thead th{color:#fff}
+.scene-inner tbody td{padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.1);font-weight:400;vertical-align:top;text-shadow:none}
+.scene-content.dark-text tbody td{border-color:rgba(26,43,60,.08)}
+.scene-inner tbody tr:last-child td{border-bottom:none}
+
+.roster{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:20px 0}
+.rcard{padding:16px 12px;text-align:center;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.18);border-radius:14px;backdrop-filter:blur(10px);transition:.25s}
+.rcard:hover{transform:translateY(-3px);background:rgba(0,0,0,.4)}
+.rcard .silhouette{width:38px;height:48px;margin:0 auto 7px}
+.rcard .n{font-family:var(--font-brand);font-weight:700;font-size:.82rem;text-shadow:none}
+.rcard .r{font-size:.68rem;opacity:.78;margin-top:2px;font-weight:300;text-shadow:none}
+
+.qbank-q{margin-bottom:22px;padding:20px 22px;background:rgba(255,255,255,.55);border-radius:14px;border:1px solid rgba(26,43,60,.08);box-shadow:0 4px 12px rgba(26,43,60,.06)}
+.qbank-q .stem{font-family:var(--font-display);font-weight:500;font-size:1rem;margin-bottom:12px;line-height:1.5}
+.qbank-q .stem .num{font-weight:700;color:var(--primary);margin-right:5px}
+.qbank-q .stem .star{color:var(--warning);margin-left:5px}
+.qbank-q .options{display:flex;flex-direction:column;gap:9px;margin:10px 0 0}
+.qbank-q .opt{text-align:left;background:#fff;border:1.5px solid rgba(26,43,60,.12);padding:11px 15px;border-radius:10px;cursor:pointer;font-family:var(--font-body);font-size:.92rem;color:var(--dark);transition:.18s;font-weight:400;width:100%;display:block;line-height:1.5}
+.qbank-q .opt:hover:not(.locked){border-color:var(--secondary);background:rgba(29,202,211,.08);transform:translateX(3px)}
+.qbank-q .opt.correct{border-color:var(--success);background:rgba(16,185,129,.18);color:#065f46;font-weight:500}
+.qbank-q .opt.wrong{border-color:var(--danger);background:rgba(239,68,68,.14);color:#991b1b;font-weight:500}
+.qbank-q .opt.locked{cursor:default}
+.qbank-q .feedback{margin-top:14px;padding:14px 16px;border-radius:10px;font-size:.9rem;line-height:1.6;animation:fadeUp .3s}
+.qbank-q .feedback.ok{background:rgba(16,185,129,.12);border-left:4px solid var(--success);color:#065f46}
+.qbank-q .feedback.bad{background:rgba(239,68,68,.08);border-left:4px solid var(--danger);color:#991b1b}
+.qbank-q .meta-row{display:flex;justify-content:space-between;margin-top:10px;font-size:.72rem;opacity:.7;font-style:italic}
+
+.rain-layer{position:absolute;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
+.raindrop{position:absolute;width:1.5px;height:48px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.45));animation:rain linear infinite}
+@keyframes rain{0%{transform:translateY(-100vh)}100%{transform:translateY(120vh)}}
+.stars-layer{position:absolute;inset:0;z-index:-3;pointer-events:none}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle linear infinite}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+
+.slide.active .scene-inner > *{animation:slideUp .7s cubic-bezier(.2,.7,.3,1) backwards}
+.slide.active .scene-inner > *:nth-child(1){animation-delay:.1s}
+.slide.active .scene-inner > *:nth-child(2){animation-delay:.18s}
+.slide.active .scene-inner > *:nth-child(3){animation-delay:.26s}
+.slide.active .scene-inner > *:nth-child(4){animation-delay:.34s}
+.slide.active .scene-inner > *:nth-child(5){animation-delay:.42s}
+.slide.active .scene-inner > *:nth-child(6){animation-delay:.50s}
+.slide.active .scene-inner > *:nth-child(7){animation-delay:.58s}
+.slide.active .scene-inner > *:nth-child(8){animation-delay:.66s}
+.slide.active .scene-inner > *:nth-child(9){animation-delay:.74s}
+@keyframes slideUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:linear-gradient(180deg,transparent,rgba(5,10,21,.65));pointer-events:none}
+.bottom-nav > *{pointer-events:auto}
+.nav-arrow{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.95);color:var(--primary);border:none;cursor:pointer;font-size:1.4rem;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.35);transition:.2s;font-family:var(--font-brand);font-weight:700}
+.nav-arrow:hover:not(:disabled){transform:scale(1.08);box-shadow:0 8px 22px rgba(0,0,0,.45)}
+.nav-arrow:disabled{opacity:.3;cursor:not-allowed;background:rgba(255,255,255,.4);color:rgba(255,255,255,.5)}
+.dots{display:flex;gap:9px;align-items:center;background:rgba(5,10,21,.55);padding:9px 15px;border-radius:999px;backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12)}
+.dots .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.35);border:none;cursor:pointer;padding:0;transition:.25s;position:relative}
+.dots .dot.active{background:#fff;transform:scale(1.5);box-shadow:0 0 10px rgba(255,255,255,.5)}
+.dots .dot:hover:not(.active){background:rgba(255,255,255,.65)}
+.dots .dot .tip{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(5,10,21,.92);color:#fff;padding:4px 9px;border-radius:6px;font-size:.7rem;white-space:nowrap;opacity:0;pointer-events:none;transition:.15s;font-family:var(--font-body);font-weight:500}
+.dots .dot:hover .tip{opacity:1}
+.counter{position:fixed;top:64px;right:18px;z-index:150;background:rgba(5,10,21,.55);color:#fff;padding:5px 12px;border-radius:999px;font-family:var(--font-brand);font-weight:600;font-size:.72rem;letter-spacing:.5px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12)}
+
+.usamedic-footer{margin-top:24px;padding:24px 22px;background:rgba(5,10,21,.05);color:var(--dark);text-align:center;border-top:1px solid rgba(26,43,60,.1);border-radius:12px}
+.usamedic-footer img{width:140px;margin-bottom:10px;opacity:.88}
+.usamedic-footer .tagline{font-family:var(--font-brand);font-weight:300;font-size:.78rem;opacity:.75;margin-bottom:12px}
+.usamedic-footer .links a{color:var(--primary);text-decoration:none;margin:0 8px;font-size:.76rem;font-weight:500}
+.usamedic-footer .sub{margin-top:14px;font-size:.66rem;opacity:.55;font-style:italic}
+
+.hint{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(5,10,21,.7);color:#fff;padding:7px 14px;border-radius:999px;font-size:.72rem;font-family:var(--font-body);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);z-index:140;animation:hintFade 4.5s ease-out forwards;pointer-events:none}
+@keyframes hintFade{0%,70%{opacity:1}100%{opacity:0;visibility:hidden}}
+
+@media (max-width:640px){
+  .topbar{padding:8px 14px}
+  .topbar .meta{display:none}
+  .scene-content{padding:36px 20px 84px}
+  .nav-arrow{width:44px;height:44px;font-size:1.2rem}
+  .bottom-nav{padding:10px 14px}
+  .counter{top:54px;right:12px;font-size:.66rem;padding:4px 9px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <img src="data:image/png;base64,__ISOTIPO_B64__" alt="USAMEDIC" />
+    <div>
+      <strong>USAMEDIC</strong>
+      <small>Médicos de Excelencia</small>
+    </div>
+  </div>
+  <div class="meta">
+    <span class="chip">CIS-2.15</span>
+    <span class="chip">ITS · VIH · Hep B/C</span>
+  </div>
+</header>
+
+<div id="root"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, Fragment } = React;
+
+const Sil = {
+  serums: (<svg viewBox="0 0 40 56" fill="none"><circle cx="20" cy="11" r="6" fill="currentColor"/><path d="M8 56 L8 28 Q8 19 20 19 Q32 19 32 28 L32 56 Z" fill="currentColor"/><path d="M14 32 Q14 38 20 38 Q26 38 26 32" stroke="rgba(255,255,255,.65)" strokeWidth="1.5" fill="none"/><circle cx="14" cy="38" r="1.5" fill="rgba(255,255,255,.65)"/><circle cx="26" cy="38" r="1.5" fill="rgba(255,255,255,.65)"/></svg>),
+  lucia: (<svg viewBox="0 0 40 56" fill="none"><circle cx="20" cy="11" r="6" fill="currentColor"/><path d="M14 17 Q10 22 8 30 L8 56 L32 56 L32 30 Q30 22 26 17 Z" fill="currentColor"/><path d="M14 18 Q12 24 12 30" stroke="rgba(255,255,255,.4)" strokeWidth="1.2" fill="none"/><path d="M26 18 Q28 24 28 30" stroke="rgba(255,255,255,.4)" strokeWidth="1.2" fill="none"/></svg>),
+  pareja: (<svg viewBox="0 0 40 56" fill="none"><circle cx="20" cy="11" r="6" fill="currentColor"/><path d="M8 56 L8 28 Q8 19 20 19 Q32 19 32 28 L32 56 Z" fill="currentColor"/><rect x="16" y="20" width="8" height="10" fill="rgba(255,255,255,.35)"/></svg>),
+  luci: (<svg viewBox="0 0 40 56" fill="none"><circle cx="20" cy="11" r="6" fill="currentColor"/><path d="M8 56 L8 28 Q8 19 20 19 Q32 19 32 28 L32 56 Z" fill="currentColor"/><rect x="14" y="30" width="12" height="9" rx="1.5" fill="rgba(255,255,255,.7)"/><line x1="14" y1="33" x2="26" y2="33" stroke="currentColor" strokeWidth=".8"/></svg>),
+  norma: (<svg viewBox="0 0 40 56" fill="none"><path d="M8 8 L32 8 L32 50 Q20 56 8 50 Z" fill="currentColor"/><line x1="13" y1="18" x2="27" y2="18" stroke="rgba(255,255,255,.65)" strokeWidth="1.2"/><line x1="13" y1="24" x2="27" y2="24" stroke="rgba(255,255,255,.65)" strokeWidth="1.2"/><line x1="13" y1="30" x2="22" y2="30" stroke="rgba(255,255,255,.65)" strokeWidth="1.2"/><circle cx="20" cy="40" r="3" fill="rgba(255,255,255,.7)"/></svg>),
+};
+
+const CHARACTERS = {
+  serums: { name: "Tú", role: "SERUMS · Posta La Esperanza", color: "#1BACE4" },
+  lucia: { name: "Lucía", role: "22 años · urbano · primer tamizaje", color: "#c084fc" },
+  pareja: { name: "Mario", role: "Pareja · 26 años", color: "#94a3b8" },
+  luci: { name: "Luci", role: "Tutora · Voz docente", color: "#1DCAD3" },
+  norma: { name: "NTS 240 + 159 + 146/145 + 204", role: "Marco normativo MINSA", color: "#f59e0b" },
+};
+
+const Silhouette = ({ who }) => (
+  <div className="silhouette" style={{color: CHARACTERS[who].color}}>{Sil[who]}</div>
+);
+
+const Character = ({ who, level, children }) => (
+  <div className={`character ${who}`}>
+    <Silhouette who={who} />
+    <div className="char-body">
+      <div className="char-name">
+        {CHARACTERS[who].name} <span className="role">· {CHARACTERS[who].role}</span>
+        {level && <span className={`level-badge ${level}`}>{level.toUpperCase()}</span>}
+      </div>
+      <p className="char-line">{children}</p>
+    </div>
+  </div>
+);
+
+const Mountains = ({ variant, color }) => {
+  const paths = {
+    distant: "M0,400 L0,260 Q120,200 220,230 Q320,255 420,210 Q540,170 660,220 Q780,260 900,200 Q1020,160 1140,225 L1200,250 L1200,400 Z",
+    mid: "M0,400 L0,290 Q100,240 200,275 Q300,310 400,255 Q500,210 620,260 L720,310 Q820,255 940,290 Q1060,320 1200,275 L1200,400 Z",
+    near: "M0,400 L0,330 Q80,295 160,320 Q260,355 360,310 Q460,275 580,315 Q680,345 800,305 Q920,275 1040,325 Q1140,360 1200,335 L1200,400 Z",
+  };
+  return (
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice">
+      <path d={paths[variant]} fill={color} />
+    </svg>
+  );
+};
+
+const Foreground = ({ color, withPeople }) => (
+  <svg viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+    <path d="M0,300 L0,180 Q100,150 220,165 Q320,175 380,155 L440,155 L440,135 L460,115 L500,135 L500,155 L560,155 Q620,150 700,170 Q820,200 940,175 Q1080,150 1200,180 L1200,300 Z" fill={color}/>
+    {withPeople && (
+      <Fragment>
+        <ellipse cx="380" cy="172" rx="4" ry="9" fill={color}/>
+        <circle cx="380" cy="160" r="2.5" fill={color}/>
+        <ellipse cx="395" cy="174" rx="3.5" ry="7" fill={color}/>
+        <circle cx="395" cy="164" r="2" fill={color}/>
+      </Fragment>
+    )}
+  </svg>
+);
+
+const SKIES = {
+  dawn: "linear-gradient(180deg,#FFE5C7 0%,#FFC88C 22%,#1BACE4 62%,#2A7DE1 100%)",
+  rainy: "linear-gradient(180deg,#5a6b7c 0%,#3a4b5c 50%,#1a2b3c 100%)",
+  noon: "linear-gradient(180deg,#eaf6fb 0%,#1DCAD3 55%,#1BACE4 100%)",
+  open: "linear-gradient(180deg,#a5d8f0 0%,#1BACE4 50%,#2A7DE1 100%)",
+  dusk: "linear-gradient(180deg,#FFC88C 0%,#FF8966 35%,#E55B4C 60%,#5a6b7c 100%)",
+  twilight: "linear-gradient(180deg,#FFB088 0%,#5a6b7c 28%,#1a2b3c 65%,#0a1525 100%)",
+  night: "linear-gradient(180deg,#0a1525 0%,#1a2b3c 70%,#2A7DE1 100%)",
+  morning: "linear-gradient(180deg,#FFE5C7 0%,#1DCAD3 40%,#2A7DE1 100%)",
+  pure: "linear-gradient(180deg,#eaf6fb 0%,#f5fbfd 60%,#ffffff 100%)",
+};
+
+const Slide = ({ index, active, sky, mountainColors, foregroundColor, sun, withRain, withStars, withPeople, darkText, children }) => {
+  const distantRef = useRef(null);
+  const midRef = useRef(null);
+  const nearRef = useRef(null);
+  const foreRef = useRef(null);
+  const sunRef = useRef(null);
+
+  useEffect(() => {
+    if (!active) return;
+    const onMove = (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+      if (distantRef.current) distantRef.current.style.transform = `translate3d(${x * -8}px, ${y * -4}px, 0)`;
+      if (midRef.current) midRef.current.style.transform = `translate3d(${x * -18}px, ${y * -8}px, 0)`;
+      if (nearRef.current) nearRef.current.style.transform = `translate3d(${x * -30}px, ${y * -12}px, 0)`;
+      if (foreRef.current) foreRef.current.style.transform = `translate3d(${x * -45}px, ${y * -18}px, 0)`;
+      if (sunRef.current) sunRef.current.style.transform = `translate3d(${x * -4}px, ${y * -2}px, 0)`;
+    };
+    window.addEventListener("mousemove", onMove);
+    return () => window.removeEventListener("mousemove", onMove);
+  }, [active]);
+
+  return (
+    <section className={`slide ${active ? "active" : ""}`} data-index={index}>
+      <div className="sky" style={{background: SKIES[sky]}}/>
+      {sun && (
+        <div ref={sunRef} className="celestial" style={{
+          width: sun.size, height: sun.size,
+          background: sun.color,
+          top: sun.top, left: sun.left,
+          boxShadow: sun.glow ? `0 0 ${sun.size * 0.7}px ${sun.color}66` : "none",
+          opacity: sun.opacity || 1,
+        }}/>
+      )}
+      {withStars && (
+        <div className="stars-layer">
+          {[...Array(70)].map((_, i) => (
+            <span key={i} className="star" style={{
+              top: `${Math.random()*65}%`, left: `${Math.random()*100}%`,
+              animationDuration: `${2 + Math.random()*4}s`,
+              animationDelay: `${Math.random()*3}s`,
+              width: `${1 + Math.random()*1.5}px`,
+              height: `${1 + Math.random()*1.5}px`,
+            }}/>
+          ))}
+        </div>
+      )}
+      {withRain && (
+        <div className="rain-layer">
+          {[...Array(45)].map((_, i) => (
+            <span key={i} className="raindrop" style={{
+              left: `${Math.random()*100}%`,
+              animationDuration: `${0.5 + Math.random()*0.7}s`,
+              animationDelay: `${Math.random()*1.5}s`,
+              opacity: 0.3 + Math.random()*0.5,
+            }}/>
+          ))}
+        </div>
+      )}
+      <div ref={distantRef} className="layer distant"><Mountains variant="distant" color={mountainColors[0]} /></div>
+      <div ref={midRef} className="layer mid"><Mountains variant="mid" color={mountainColors[1]} /></div>
+      <div ref={nearRef} className="layer near"><Mountains variant="near" color={mountainColors[2]} /></div>
+      <div ref={foreRef} className="layer fore"><Foreground color={foregroundColor} withPeople={withPeople}/></div>
+      <div className={`scene-content ${darkText ? "dark-text" : ""}`}>
+        <div className="scene-inner">{children}</div>
+      </div>
+    </section>
+  );
+};
+
+const Decision = ({ question, options, correct, explainOk, explainBad }) => {
+  const [picked, setPicked] = useState(null);
+  return (
+    <div className="decision">
+      <p className="q">{question}</p>
+      <div className="options">
+        {options.map((o, i) => {
+          let cls = "opt";
+          if (picked !== null) {
+            cls += " locked";
+            if (i === correct) cls += " correct";
+            else if (i === picked) cls += " wrong";
+          }
+          return (
+            <button key={i} className={cls}
+              onClick={() => picked === null && setPicked(i)}>
+              <strong>{String.fromCharCode(65 + i)}.</strong> {o}
+            </button>
+          );
+        })}
+      </div>
+      {picked !== null && (
+        <div className={`feedback ${picked === correct ? "ok" : "bad"}`}>
+          {picked === correct ? explainOk : explainBad}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const QBANK = [
+  {star:true,stem:"Mujer 22 años, urbana, descarga vaginal anormal y dolor abdominal bajo leve (T 37.2°C). EESS I-2 sin laboratorio etiológico. ¿Tratamiento sindrómico de elección?",options:["Metronidazol 2g VO DU + Fluconazol 150 mg VO DU; controlar en 7 días.","Ceftriaxona 1g IM DU + Doxiciclina 100 mg c/12h x 14d + Metronidazol 500 mg c/12h x 14d.","Azitromicina 1g VO DU + Aciclovir 400 mg c/12h x 5d.","Solo observación porque la fiebre es baja."],correct:1,explain:"Cervicitis + dolor abdominal bajo ambulatorio = EPI ambulatoria: cubrir gonococo + clamidia + anaerobios. Doxiciclina permitida porque NO está embarazada. NTS 240-2026, p. 14-15.",diff:"media"},
+  {stem:"En todo síndrome de ITS, además del tratamiento sindrómico, debes ofrecer:",options:["Solo prueba rápida VIH.","Solo RPR.","Pruebas rápidas para VIH, sífilis y hepatitis B (PRD/PRT) + verificar vacuna Hep B.","Hemograma y PCR."],correct:2,explain:"Regla universal de ITS: en TODO síndrome se ofrece PRD/PRT para VIH+sífilis+HBsAg y se verifica vacunación Hep B. NTS 240, p. 9.",diff:"fácil"},
+  {star:true,stem:"PRD-sífilis reactiva en Lucía (no gestante). RPR cuantitativo no disponible. Sin lesión, sin historia previa. ¿Conducta?",options:["Esperar RPR antes de tratar.","PNC-G benzatínica 2.4 MUI IM x 3 dosis semanales (latente de duración desconocida).","1 sola dosis de PNC porque no tiene clínica.","Doxiciclina 100 mg c/12h x 14d porque no es gestante."],correct:1,explain:"Sin RPR previo, sin clínica para clasificar = latente de duración desconocida = 3 dosis. Doxiciclina sería alternativa solo en latente temprana (<1 año documentada). NTS 159, p. 43.",diff:"difícil"},
+  {stem:"Para CONFIRMAR caso de VIH en adulto, según norma peruana, basta con:",options:["Una prueba rápida reactiva.","Dos pruebas rápidas reactivas de DIFERENTES fabricantes (3ra generación).","Western Blot obligatorio.","ELISA + CD4."],correct:1,explain:"Definición de caso VIH (NTS 169 / NT VIH, p. 25): 2 PR reactivas de distinto fabricante, o 1 PR + 1 ELISA, o 1 PR + confirmatoria (CV/IFI/Inmunoblot). NTS 169-2020.",diff:"media"},
+  {stem:"Adulto de 28 años, recién diagnosticado VIH (2 PR reactivas). Sin TB activa. ¿Esquema TAR de primera línea de elección?",options:["TDF 300 / FTC 200 / EFV 600 (DFC) c/24h.","TDF 300 / 3TC 300 / DTG 50 (DFC) 1 tab c/24h.","AZT + 3TC + LPV/r.","Esperar CD4 < 350 para iniciar."],correct:1,explain:"TAR inmediato, independiente de CD4/CV/estadio. Esquema 1ra línea: TDF/3TC/DTG en DFC. NT VIH, p. 26-27.",diff:"media"},
+  {stem:"Lucía resulta HBsAg reactiva. NO está embarazada, no tiene clínica, no es gestante ni inmunosuprimida. ¿Próximo paso?",options:["Iniciar TDF de inmediato sin más estudios.","Suspender lactancia y aislarla.","Solicitar marcadores completos (HBeAg, Anti-HBc IgM/Total) + CV-VHB; referir a infectología; verificar Anti-VHC; consejería 4C.","Dar IGHB profiláctica."],correct:2,explain:"HBsAg(+) en mujer no gestante: caracterización con marcadores + CV-VHB para definir aguda/crónica y tratamiento; tamizar Anti-VHC; consejería 4C. TDF en HBV solo si criterios (cronicidad activa). NTS 146, p. 17-18; NT Hep C, p. 14.",diff:"difícil"},
+];
+
+const QBankItem = ({ q, idx }) => {
+  const [picked, setPicked] = useState(null);
+  return (
+    <div className="qbank-q">
+      <div className="stem">
+        <span className="num">{String(idx + 1).padStart(2,"0")}</span> {q.stem} {q.star && <span className="star">★</span>}
+      </div>
+      <div className="options">
+        {q.options.map((o, i) => {
+          let cls = "opt";
+          if (picked !== null) {
+            cls += " locked";
+            if (i === q.correct) cls += " correct";
+            else if (i === picked) cls += " wrong";
+          }
+          return (
+            <button key={i} className={cls}
+              onClick={() => picked === null && setPicked(i)}>
+              <strong>{String.fromCharCode(65 + i)}.</strong> {o}
+            </button>
+          );
+        })}
+      </div>
+      {picked !== null && (
+        <div className={`feedback ${picked === q.correct ? "ok" : "bad"}`}>
+          {q.explain}
+        </div>
+      )}
+      <div className="meta-row">
+        <span>Dificultad: {q.diff}</span>
+        <span>NTS 240 · 159 · 146 · 169 · 204</span>
+      </div>
+    </div>
+  );
+};
+
+const SCENES = [
+  { label:"Apertura", sky:"dawn", mountainColors:["#1BACE4","#2A7DE1","#1a2b3c"], foregroundColor:"#0a1525", sun:{size:120,color:"#FFB088",top:"18%",left:"68%",glow:true,opacity:.85} },
+  { label:"La consulta · 8:40", sky:"rainy", mountainColors:["#2a3b4c","#1a2b3c","#0a1525"], foregroundColor:"#050a15", withRain:true, withPeople:true },
+  { label:"Síndrome ITS", sky:"noon", mountainColors:["#1BACE4","#2A7DE1","#1a2b3c"], foregroundColor:"#0a1525", sun:{size:80,color:"#FFFFFF",top:"10%",left:"50%",glow:true,opacity:.7}, darkText:true },
+  { label:"Las tres tiras", sky:"open", mountainColors:["#2A7DE1","#1a2b3c","#0a1525"], foregroundColor:"#050a15", sun:{size:80,color:"#FFE5C7",top:"15%",left:"15%",glow:true} },
+  { label:"Rama sífilis", sky:"dusk", mountainColors:["#E55B4C","#5a6b7c","#1a2b3c"], foregroundColor:"#0a1525", sun:{size:140,color:"#FF8966",top:"52%",left:"72%",glow:true} },
+  { label:"Rama VIH/Hep B-C", sky:"twilight", mountainColors:["#5a6b7c","#1a2b3c","#0a1525"], foregroundColor:"#050a15", sun:{size:60,color:"#F5F5DC",top:"22%",left:"22%",glow:true,opacity:.9} },
+  { label:"La pareja: las 4C", sky:"night", mountainColors:["#1a2b3c","#0a1525","#050a15"], foregroundColor:"#020410", withStars:true, sun:{size:50,color:"#F5F5DC",top:"12%",left:"80%",glow:true,opacity:.95} },
+  { label:"Cierre · seis meses", sky:"morning", mountainColors:["#1DCAD3","#2A7DE1","#1a2b3c"], foregroundColor:"#0a1525", sun:{size:130,color:"#FFE5C7",top:"22%",left:"72%",glow:true}, darkText:true },
+  { label:"Q-Bank", sky:"pure", mountainColors:["#eaf6fb","#d4ecf3","#bdd9e6"], foregroundColor:"#a5cad9", darkText:true },
+];
+
+const App = () => {
+  const [idx, setIdx] = useState(0);
+  const [showHint, setShowHint] = useState(true);
+  const total = SCENES.length;
+  const touchStart = useRef(null);
+
+  const go = (n) => {
+    const next = Math.max(0, Math.min(total - 1, n));
+    if (next !== idx) {
+      setIdx(next);
+      requestAnimationFrame(() => {
+        document.querySelectorAll(".scene-content").forEach(el => el.scrollTop = 0);
+      });
+    }
+  };
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); go(idx + 1); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); go(idx - 1); }
+      else if (e.key === "Home") { e.preventDefault(); go(0); }
+      else if (e.key === "End") { e.preventDefault(); go(total - 1); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [idx]);
+
+  useEffect(() => {
+    const t = setTimeout(() => setShowHint(false), 5000);
+    return () => clearTimeout(t);
+  }, []);
+
+  const onTouchStart = (e) => { touchStart.current = e.touches[0].clientX; };
+  const onTouchEnd = (e) => {
+    if (touchStart.current === null) return;
+    const delta = e.changedTouches[0].clientX - touchStart.current;
+    if (Math.abs(delta) > 60) {
+      if (delta < 0) go(idx + 1); else go(idx - 1);
+    }
+    touchStart.current = null;
+  };
+
+  return (
+    <Fragment>
+      <div className="counter">{String(idx + 1).padStart(2,"0")} / {String(total).padStart(2,"0")} · {SCENES[idx].label}</div>
+
+      <div className="carousel" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+        <div className="track" style={{transform: `translateX(-${idx * 100}vw)`}}>
+
+          {/* SLIDE 0 — Apertura */}
+          <Slide index={0} active={idx === 0} {...SCENES[0]}>
+            <p className="eyebrow">CIS-2.15 · Storytelling SERUMS</p>
+            <h1>Lucía y los <em>tres tamizajes</em></h1>
+            <p className="narration">
+              Atención integral de ITS, VIH y hepatitis B y C. Lucía llega por un síndrome ITS clásico,
+              pero el tamizaje obligatorio descubre algo más. Vives la posta, decides el manejo sindrómico,
+              activas las pruebas rápidas y aplicas la <em>regla 4C</em>.
+            </p>
+            <div className="tagline-row">
+              <span className="pill">NTS 240-2026 · ITS</span>
+              <span className="pill">NTS 169-2020 · VIH</span>
+              <span className="pill">NTS 146/145 · Hep B/C</span>
+              <span className="pill">9 capítulos · 6 preguntas</span>
+            </div>
+            <h2 style={{marginTop:"32px"}}>El reparto</h2>
+            <div className="roster">
+              {Object.entries(CHARACTERS).map(([k, c]) => (
+                <div key={k} className="rcard">
+                  <Silhouette who={k}/>
+                  <div className="n">{c.name}</div>
+                  <div className="r">{c.role}</div>
+                </div>
+              ))}
+            </div>
+            <div className="callout gold">
+              <h4>La regla de oro</h4>
+              <p>En TODO síndrome de ITS: PRD/PRT para VIH + sífilis + HBsAg, verificar vacuna Hep B, aplicar las <em>4C</em>: Consejería · Cumplimiento · Contactos · Condones.</p>
+              <p style={{opacity:.85,fontSize:".88rem",marginTop:"8px"}}>
+                Tratamiento sindrómico HOY · confirmación etiológica en paralelo · tamizaje universal.
+              </p>
+            </div>
+          </Slide>
+
+          {/* SLIDE 1 — La consulta */}
+          <Slide index={1} active={idx === 1} {...SCENES[1]}>
+            <p className="eyebrow">Capítulo I · 8:40 a.m.</p>
+            <h1>Lucía entra con <em>dos problemas</em></h1>
+            <p className="narration">
+              Llueve sobre la posta La Esperanza. Lucía tiene 22 años, vive a tres cuadras,
+              y desde hace cinco días tiene <em>flujo vaginal de mal olor</em> y dolor pélvico leve.
+            </p>
+            <Character who="lucia">
+              Pensé que era hongos, doctor. Pero me empezó a doler abajo. La temperatura del termómetro de mi casa marcó 37.2.
+            </Character>
+            <p className="narration">
+              Examen: T 37.2 °C. PA 110/70. Abdomen blando con dolor a la palpación profunda en hipogastrio.
+              Especuloscopía: cérvix friable, secreción mucopurulenta. <em>Sin signos de hospitalización</em>.
+            </p>
+            <Character who="luci" level="n1">
+              Cervicitis con dolor abdominal bajo ambulatorio = manejo sindrómico de EPI ambulatoria.
+              No tienes laboratorio etiológico hoy: actúa por síndrome.
+            </Character>
+            <Character who="norma" level="n1">
+              NTS 240-2026, p. 14: EPI ambulatoria = Ceftriaxona 1g IM DU + Doxiciclina 100 mg c/12h x 14d + Metronidazol 500 mg c/12h x 14d. Cubre gonococo + clamidia + anaerobios.
+            </Character>
+            <Decision
+              question="¿Qué pides ADEMÁS del tratamiento sindrómico, antes de que Lucía se vaya?"
+              options={[
+                "Solo control en 72 horas.",
+                "Hemograma y ecografía pélvica como prioridad.",
+                "PRD (VIH + sífilis) + HBsAg + verificar carnet de vacunación Hep B + consejería 4C.",
+                "Solo Papanicolaou en la siguiente cita.",
+              ]}
+              correct={2}
+              explainOk="Correcto. En TODO síndrome ITS se ofrece tamizaje PRD/PRT y se verifica vacuna Hep B. La 4C es obligatoria. NTS 240, p. 9, 25."
+              explainBad="Trampa clásica. El tamizaje VIH + sífilis + HBsAg es OBLIGATORIO en cualquier consulta por ITS sindrómica, independiente de síntomas. NTS 240, p. 9."
+            />
+          </Slide>
+
+          {/* SLIDE 2 — Síndrome ITS */}
+          <Slide index={2} active={idx === 2} {...SCENES[2]}>
+            <p className="eyebrow">Capítulo II · El mapa sindrómico</p>
+            <h1>Seis cajas, <em>una decisión</em></h1>
+            <p className="narration">
+              El abordaje sindrómico existe porque la mayoría de EESS I-1 e I-2 no tienen laboratorio etiológico.
+              Tu trabajo es <em>reconocer el síndrome</em> y aplicar la receta antes de saber el germen.
+            </p>
+            <table>
+              <thead><tr><th>Síndrome</th><th>Agentes</th><th>Tratamiento</th><th>Contactos</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Úlcera genital</strong></td><td>VHS · T. pallidum</td><td>PNC-G benz 2.4 MUI IM DU + Aciclovir 400 mg c/12h x 5d</td><td>90 días</td></tr>
+                <tr><td><strong>Descarga uretral / rectal</strong></td><td>Gonococo + clamidia</td><td>Ceftriaxona 1g IM DU + Doxiciclina 100 mg c/12h x 7d</td><td>60 días</td></tr>
+                <tr><td><strong>Flujo vaginal</strong></td><td>T. vaginalis · BV · cándida</td><td>Metronidazol 2g VO DU + Fluconazol 150 mg VO DU</td><td>—</td></tr>
+                <tr><td><strong>Cervicitis</strong></td><td>Gonococo + clamidia</td><td>Ceftriaxona 1g IM DU + Doxiciclina 100 mg c/12h x 7d</td><td>60 días</td></tr>
+                <tr><td><strong>EPI ambulatoria</strong></td><td>+ anaerobios</td><td>Ceftriaxona 1g IM DU + Doxi 14d + Metro 14d</td><td>60 días</td></tr>
+              </tbody>
+            </table>
+            <div className="callout rule">
+              <h4>Hospitalizar EPI si...</h4>
+              <p>Embarazo · T &gt; 38.5 °C · dolor severo · intolerancia oral · absceso tubo-ovárico · sin respuesta a las 48-72 h del manejo oral. NTS 240, p. 14-15.</p>
+            </div>
+            <Character who="luci" level="n2">
+              Lucía cumple criterios ambulatorios: T baja, sin absceso, tolera VO, no embarazada. Receta el esquema, cita en 72 h.
+            </Character>
+          </Slide>
+
+          {/* SLIDE 3 — Tres tiras */}
+          <Slide index={3} active={idx === 3} {...SCENES[3]}>
+            <p className="eyebrow">Capítulo III · 9:10 a.m.</p>
+            <h1>Treinta minutos <em>después</em></h1>
+            <p className="narration">
+              Lucía sale al pasillo. Vuelve. Te inclinas sobre las tres tiras.
+            </p>
+            <div className="callout trap">
+              <h4>Resultados PRD + HBsAg</h4>
+              <p><strong>VIH:</strong> no reactivo. &nbsp;·&nbsp; <strong>Sífilis:</strong> reactiva. &nbsp;·&nbsp; <strong>HBsAg:</strong> reactiva.</p>
+              <p style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:"1.05rem",marginTop:"6px"}}>Dos de tres.</p>
+            </div>
+            <p className="narration">
+              Lucía nunca tuvo una prueba de sífilis. No conoce su estado de vacuna Hep B.
+              Tu mente repasa: <em>same day testing, same day treatment</em> aplica a ITS también.
+            </p>
+            <Character who="norma" level="n2">
+              NTS 240, p. 9: en todo síndrome ITS, las pruebas rápidas se ofrecen el mismo día y el tratamiento se inicia con el resultado reactivo, sin esperar confirmatorias.
+            </Character>
+            <Character who="luci" level="n2">
+              Plan: sífilis → 3 dosis PNC benzatínica semanales (latente desconocida). Hep B → marcadores completos + referir. VIH negativo → consejería preventiva y considerar PrEP si su pareja es de riesgo.
+            </Character>
+          </Slide>
+
+          {/* SLIDE 4 — Rama sífilis */}
+          <Slide index={4} active={idx === 4} {...SCENES[4]}>
+            <p className="eyebrow">Capítulo IV · Rama sífilis</p>
+            <h1>La dosis que cuesta <em>cinco soles</em></h1>
+            <p className="narration">
+              PRD-sífilis reactiva. RPR cuantitativo no llega antes de 7 días.
+              Sin lesión activa, sin historia previa = <em>latente de duración desconocida</em>.
+            </p>
+            <div className="callout rule">
+              <h4>Conducta hoy</h4>
+              <ol>
+                <li>PNC-G benzatínica <code>2.4 MUI IM</code> hoy, 1ra de 3 dosis semanales.</li>
+                <li>Solicitar RPR cuantitativo y FTA-ABS o TPHA.</li>
+                <li>Notificar a pareja (Mario, 26a) → tamizaje y tratamiento.</li>
+                <li>Seguimiento RPR cuantitativo a 3, 6, 12 meses (caída ≥4× = respuesta).</li>
+              </ol>
+              <p style={{marginTop:"8px"}}>NTS 159-2019, p. 43-44; NTS 240, p. 25.</p>
+            </div>
+            <Character who="lucia">
+              Doctor, ¿le digo a Mario? ¿Y si se molesta?
+            </Character>
+            <Character who="serums">
+              Le explicas la regla 4C: Mario también necesita prueba y tratamiento; si no, en dos meses regresa la sífilis a Lucía. El acompañamiento del SERUMS hace toda la diferencia.
+            </Character>
+            <div className="callout trap">
+              <h4>Trampas clásicas (no gestante)</h4>
+              <ul>
+                <li><strong>Confundir RPR con FTA-ABS</strong> en seguimiento → FTA-ABS reactivo de por vida, no sirve para evaluar respuesta.</li>
+                <li><strong>1 dosis para duración desconocida</strong> → reactivación / fracaso.</li>
+                <li><strong>Eritromicina en sífilis</strong> → no es estándar (válido solo en escenarios muy restringidos; gestante = PNC SIEMPRE).</li>
+                <li><strong>Suspender porque PRD es treponémica</strong> → la PRD es válida como tamizaje y dispara tratamiento.</li>
+              </ul>
+            </div>
+            <Decision
+              question="¿Y si Lucía estuviera embarazada de 18 semanas?"
+              options={[
+                "Doxiciclina 100 mg c/12h x 28d.",
+                "Eritromicina 500 mg c/6h x 14d.",
+                "PNC-G benzatínica 2.4 MUI IM x 3 dosis semanales, comenzar hoy. Si alérgica → desensibilizar.",
+                "Esperar al 3er trimestre para tratar.",
+              ]}
+              correct={2}
+              explainOk="Correcto. Gestante = PNC SIEMPRE. Doxiciclina contraindicada. Eritromicina no cruza placenta en dosis treponemicidas → sífilis congénita. Alergia → desensibilizar; última opción: ceftriaxona 14d. NTS 159, p. 44."
+              explainBad="Trampa de ENAM. En gestante: doxiciclina y eritromicina están fuera. PNC siempre, desensibilizar si alérgica. NTS 159, p. 44."
+            />
+          </Slide>
+
+          {/* SLIDE 5 — VIH definición + Hep B/C */}
+          <Slide index={5} active={idx === 5} {...SCENES[5]}>
+            <p className="eyebrow">Capítulo V · Las otras dos ramas</p>
+            <h1>VIH negativo, <em>Hep B reactiva</em></h1>
+            <Character who="luci" level="n2">
+              Definición de caso VIH: 2 PR reactivas de distinto fabricante, o 1 PR + ELISA, o 1 PR + confirmatoria. Solo entonces se inicia TAR.
+            </Character>
+            <table>
+              <thead><tr><th>Esquema</th><th>Dosis</th><th>Uso</th></tr></thead>
+              <tbody>
+                <tr><td><strong>TDF/3TC/DTG (DFC)</strong></td><td>1 tab c/24h</td><td>1ra línea adulto · independiente de CD4/CV</td></tr>
+                <tr><td>TDF/3TC/EFV 400</td><td>1 tab c/24h</td><td>Alternativa si DTG contraindicado</td></tr>
+                <tr><td>TDF/FTC/EFV 600</td><td>1 tab c/24h</td><td>Alternativa</td></tr>
+              </tbody>
+            </table>
+            <Character who="norma" level="n2">
+              NT VIH, p. 26-27: TAR inmediato, sin esperar CD4/CV. Si TB activa: tratar TB primero e iniciar TAR 2-8 semanas después. Coinfección VHB: TDF + 3TC obligatorio (acción dual).
+            </Character>
+            <div className="callout rule">
+              <h4>Hepatitis B en Lucía (no gestante)</h4>
+              <ol>
+                <li>HBsAg(+) → marcadores completos: HBeAg, Anti-HBc IgM/Total, CV-VHB.</li>
+                <li>Tamizar Anti-VHC (PCR si reactivo).</li>
+                <li>Referir a infectología para definir aguda vs crónica.</li>
+                <li>Tratamiento (TDF/Entecavir) según criterios de cronicidad activa, no automático.</li>
+                <li>Consejería: condón, no compartir agujas/objetos cortantes, vacuna a pareja/convivientes si susceptibles.</li>
+              </ol>
+              <p style={{marginTop:"8px"}}>NTS 146-2018 · NTS 145-2018 (Hep C).</p>
+            </div>
+            <div className="callout trap">
+              <h4>Pepa clave (vs PTMI)</h4>
+              <p>En <em>no gestante</em>, HBsAg(+) NO desencadena IGHB ni vacuna inmediata; eso es para el RN expuesto. Aquí prima caracterizar marcadores antes de tratar.</p>
+            </div>
+          </Slide>
+
+          {/* SLIDE 6 — Pareja y 4C */}
+          <Slide index={6} active={idx === 6} {...SCENES[6]}>
+            <p className="eyebrow">Capítulo VI · La pareja</p>
+            <h1>Mario llega <em>esa noche</em></h1>
+            <p className="narration">
+              A las 19:40, Mario aparece. Lucía le contó. Tiene 26 años, trabaja en construcción.
+              Última prueba VIH: hace tres años, negativa. Sin condón en los últimos 8 meses.
+            </p>
+            <Character who="pareja">
+              Doctor, ¿yo también puedo tener? Tengo miedo. Pero también tengo trabajo mañana a las seis.
+            </Character>
+            <Character who="luci" level="n2">
+              Regla 4C — Consejería + Cumplimiento + Contactos + Condones. Mario es contacto sexual: tamizar PRD/PRT hoy, tratar empíricamente sífilis (1 dosis si latente temprana posible) y considerar PrEP/PPE si exposición de riesgo reciente.
+            </Character>
+            <div className="callout rule">
+              <h4>PrEP vs PPE — decisión rápida</h4>
+              <table>
+                <thead><tr><th>Variable</th><th>PrEP</th><th>PPE</th></tr></thead>
+                <tbody>
+                  <tr><td>Exposición de riesgo en últimas 72h</td><td>NO</td><td>SÍ</td></tr>
+                  <tr><td>Esquema</td><td>TDF/FTC 1 tab/día (diaria) o 2-1-1 (a demanda HSH)</td><td>TDF/3TC/DTG x 4 semanas</td></tr>
+                  <tr><td>Población</td><td>HSH, MT, TS, parejas serodiscordantes ≥18a</td><td>Violencia sexual / exposición alto riesgo</td></tr>
+                  <tr><td>Seguimiento</td><td>PR VIH + creatinina + ITS al mes y c/3 meses</td><td>VIH 6 sem, 3m, 6m</td></tr>
+                </tbody>
+              </table>
+              <p style={{marginTop:"8px"}}>NTS 204-2023, p. 10-16.</p>
+            </div>
+            <div className="callout gold">
+              <h4>La regla 4C — en cada visita ITS</h4>
+              <ul>
+                <li><strong>Consejería:</strong> historia sexual, riesgo, expectativas, modo de transmisión.</li>
+                <li><strong>Cumplimiento:</strong> entregar lista de medicamentos, fechas, signos de alarma.</li>
+                <li><strong>Contactos:</strong> trazar pareja(s) en últimos 60-90 días según síndrome.</li>
+                <li><strong>Condones:</strong> entregar paquete inicial + lubricante; demostrar uso.</li>
+              </ul>
+              <p style={{marginTop:"8px"}}>NTS 240, p. 25.</p>
+            </div>
+          </Slide>
+
+          {/* SLIDE 7 — Cierre */}
+          <Slide index={7} active={idx === 7} {...SCENES[7]}>
+            <p className="eyebrow">Cierre · Seis meses después</p>
+            <h1>RPR cae a <em>1:2</em>. La pareja, vinculada.</h1>
+            <p className="narration">
+              Lucía completó sus 3 dosis de PNC. RPR de seguimiento: caída de 1:32 → 1:2 a los 6 meses → respuesta adecuada.
+              Marcadores Hep B definieron portadora crónica con CV baja → seguimiento sin TDF inicial.
+              Anti-VHC negativo. Mario: PR negativa, sífilis tratada profilácticamente, condones en uso.
+            </p>
+            <div className="callout gold">
+              <h4>La regla de oro · ITS-VIH-Hepatitis</h4>
+              <p style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:"1.05rem"}}>
+                Tratamiento sindrómico el mismo día · tamizaje universal de los tres virus · regla 4C en cada visita.
+              </p>
+              <table style={{marginTop:"12px"}}>
+                <thead><tr><th>Norma</th><th>Cubre</th><th>Año</th></tr></thead>
+                <tbody>
+                  <tr><td>NTS 240</td><td>ITS, abordaje sindrómico</td><td>2026</td></tr>
+                  <tr><td>NTS 169</td><td>VIH adulto, coinfección TB/VIH</td><td>2020</td></tr>
+                  <tr><td>NTS 159</td><td>PTMI (VIH + sífilis + Hep B)</td><td>2019</td></tr>
+                  <tr><td>NTS 204</td><td>Prevención combinada VIH (PrEP/PPE)</td><td>2023</td></tr>
+                  <tr><td>NTS 146 / 145</td><td>Hepatitis B / Hepatitis C</td><td>2018</td></tr>
+                </tbody>
+              </table>
+              <p style={{marginTop:"12px",fontStyle:"italic"}}>
+                Una consulta sindrómica que se hace bien rompe tres cadenas de transmisión a la vez.
+              </p>
+            </div>
+          </Slide>
+
+          {/* SLIDE 8 — Q-Bank */}
+          <Slide index={8} active={idx === 8} {...SCENES[8]}>
+            <p className="eyebrow" style={{color:"var(--primary)"}}>Epílogo · Q-Bank ENAM</p>
+            <h1>Seis preguntas, <em>en frío</em></h1>
+            <p className="narration">
+              Después de vivir el caso de Lucía, las preguntas pesan distinto.
+              Resuelve. Recibes feedback inmediato con la norma exacta.
+            </p>
+            {QBANK.map((q, i) => <QBankItem key={i} q={q} idx={i} />)}
+            <div className="callout">
+              <h4>Reglas de seguridad para clase</h4>
+              <ul>
+                <li><code>source_gated · tema_delimitado</code>. No conviertas dosis o plazos en MCQ sin claim aprobado contra fuente A.</li>
+                <li>Separar ITS / VIH / Hep B-C / PTMI / prevención combinada en stems distintos.</li>
+                <li>Toda dosis específica en gestante = NTS 159; en no gestante = NTS 240 / NT VIH.</li>
+              </ul>
+            </div>
+            <div className="usamedic-footer">
+              <img src="data:image/png;base64,__LOGO_B64__" alt="USAMEDIC · Médicos de Excelencia"/>
+              <div className="tagline">Preparación Residentado Médico · ENAM · Internado</div>
+              <div className="links">
+                <a href="https://www.usamedic.pe">usamedic.pe</a> ·
+                <a href="https://facebook.com/usamedic">Facebook</a> ·
+                <a href="https://instagram.com/usamedic">Instagram</a> ·
+                <a href="https://youtube.com/usamedic">YouTube</a>
+              </div>
+              <div className="sub">
+                CIS-2.15 · ITS · VIH · Hep B/C · Storytelling cinematográfico · Dreyfus N1+N2+N3
+              </div>
+            </div>
+          </Slide>
+
+        </div>
+      </div>
+
+      {showHint && (
+        <div className="hint">← → o desliza para navegar · ↓ para leer más dentro de cada capítulo</div>
+      )}
+
+      <div className="bottom-nav">
+        <button className="nav-arrow" onClick={() => go(idx - 1)} disabled={idx === 0} aria-label="Anterior">←</button>
+        <div className="dots">
+          {SCENES.map((s, i) => (
+            <button key={i} className={`dot ${i === idx ? "active" : ""}`}
+              onClick={() => go(i)} aria-label={s.label}>
+              <span className="tip">{s.label}</span>
+            </button>
+          ))}
+        </div>
+        <button className="nav-arrow" onClick={() => go(idx + 1)} disabled={idx === total - 1} aria-label="Siguiente">→</button>
+      </div>
+    </Fragment>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

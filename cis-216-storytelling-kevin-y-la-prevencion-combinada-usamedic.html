@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Kevin y la prevención combinada · Una historia SERUMS · USAMEDIC</title>
+<link rel="icon" href="data:image/png;base64,__ISOTIPO_B64__" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;700;800&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --primary:#2A7DE1; --secondary:#1DCAD3; --accent:#1BACE4;
+  --dark:#1a2b3c; --medium:#5a6b7c; --light:#eaf6fb; --bg-soft:#f5fbfd; --white:#ffffff;
+  --success:#10b981; --warning:#f59e0b; --danger:#ef4444;
+  --warm-1:#FFE5C7; --warm-2:#FFC88C; --warm-3:#FF8966; --warm-4:#E55B4C;
+  --night-1:#0a1525; --night-2:#050a15;
+  --font-display:'Fraunces',Georgia,serif;
+  --font-body:'Inter',system-ui,sans-serif;
+  --font-brand:'Montserrat',sans-serif;
+}
+*{box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#050a15}
+body{font-family:var(--font-body);color:#fff;line-height:1.65;font-weight:400}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:300;background:linear-gradient(135deg,rgba(29,202,211,.92) 0%,rgba(42,125,225,.92) 100%);color:#fff;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 6px 20px rgba(0,0,0,.25);backdrop-filter:blur(10px)}
+.topbar .brand{display:flex;align-items:center;gap:11px}
+.topbar .brand img{height:32px;filter:brightness(0) invert(1)}
+.topbar .brand strong{font-family:var(--font-brand);font-weight:800;font-size:.88rem;letter-spacing:.5px;display:block;line-height:1}
+.topbar .brand small{font-family:var(--font-brand);font-weight:300;font-size:.68rem;opacity:.95}
+.topbar .meta{font-size:.74rem;opacity:.95;display:flex;gap:7px;align-items:center}
+.topbar .chip{background:rgba(255,255,255,.18);padding:4px 10px;border-radius:999px;font-weight:500;font-size:.7rem}
+
+.carousel{position:fixed;top:54px;bottom:0;left:0;right:0;overflow:hidden}
+.track{display:flex;height:100%;width:100%;transition:transform .85s cubic-bezier(.65,.05,.36,1);will-change:transform}
+.slide{flex:0 0 100vw;width:100vw;height:100%;position:relative;overflow:hidden;isolation:isolate}
+
+.sky{position:absolute;inset:0;z-index:-5}
+.layer{position:absolute;inset:0;z-index:-1;will-change:transform;pointer-events:none;transition:transform .15s ease-out}
+.layer svg{position:absolute;left:-5%;right:-5%;bottom:0;width:110%;height:auto;display:block}
+.layer.distant{z-index:-4;opacity:.5}
+.layer.mid{z-index:-3;opacity:.78}
+.layer.near{z-index:-2}
+.layer.fore{z-index:-1}
+.celestial{position:absolute;border-radius:50%;z-index:-4;transition:transform .15s ease-out;will-change:transform}
+
+.scene-content{position:relative;z-index:5;height:100%;overflow-y:auto;overflow-x:hidden;padding:48px 32px 90px;display:flex;justify-content:center;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+.scene-content::-webkit-scrollbar{width:6px}
+.scene-content::-webkit-scrollbar-track{background:transparent}
+.scene-content::-webkit-scrollbar-thumb{background:rgba(255,255,255,.25);border-radius:3px}
+.scene-content.dark-text::-webkit-scrollbar-thumb{background:rgba(26,43,60,.2)}
+.scene-inner{max-width:720px;width:100%;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.18)}
+.scene-content.dark-text .scene-inner{color:var(--dark);text-shadow:none}
+
+.eyebrow{text-transform:uppercase;letter-spacing:4px;font-size:.7rem;font-weight:600;opacity:.88;margin:0 0 14px;font-family:var(--font-body)}
+.scene-inner h1{font-family:var(--font-display);font-weight:300;font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.05;margin:0 0 18px;letter-spacing:-.02em;font-variation-settings:"opsz" 144}
+.scene-inner h1 em{font-style:italic;font-weight:500}
+.scene-inner h2{font-family:var(--font-display);font-weight:400;font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.15;margin:0 0 14px;letter-spacing:-.01em}
+.scene-inner h2 em{font-style:italic}
+.scene-inner h3{font-family:var(--font-display);font-weight:500;font-size:1.18rem;margin:26px 0 10px;line-height:1.3}
+.narration{font-size:1.05rem;line-height:1.75;margin:0 0 18px;max-width:62ch;font-weight:400;text-shadow:0 1px 3px rgba(0,0,0,.18)}
+.scene-content.dark-text .narration{font-weight:400;text-shadow:none}
+.narration em{font-style:italic;font-weight:500}
+.tagline-row{margin-top:22px;display:flex;flex-wrap:wrap;gap:7px}
+.tagline-row .pill{padding:6px 13px;border-radius:999px;font-size:.72rem;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);font-weight:500;letter-spacing:.4px;text-shadow:none}
+.scene-content.dark-text .pill{background:rgba(26,43,60,.08);border-color:rgba(26,43,60,.15);color:var(--dark)}
+
+.character{display:flex;gap:14px;align-items:flex-start;padding:14px 18px;border-radius:14px;margin:12px 0;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.18);transition:.25s}
+.scene-content.dark-text .character{background:rgba(255,255,255,.7);border-color:rgba(26,43,60,.08)}
+.character.luci{border-left:3px solid var(--secondary)}
+.character.kevin{border-left:3px solid #5eead4}
+.character.amigo{border-left:3px solid #fb923c}
+.character.norma{border-left:3px solid var(--warning)}
+.character.serums{border-left:3px solid var(--accent)}
+.silhouette{width:48px;height:58px;flex-shrink:0;display:flex;align-items:flex-end;justify-content:center}
+.silhouette svg{width:100%;height:100%}
+.char-body{flex:1;min-width:0}
+.char-name{font-family:var(--font-brand);font-weight:700;font-size:.78rem;letter-spacing:.5px;margin-bottom:3px;display:flex;flex-wrap:wrap;align-items:center;gap:7px;text-shadow:none}
+.char-name .role{font-family:var(--font-body);font-weight:300;font-size:.66rem;opacity:.75;text-transform:uppercase;letter-spacing:1.3px}
+.char-line{margin:0;font-size:.95rem;line-height:1.6;font-weight:400;text-shadow:none}
+.level-badge{display:inline-block;padding:2px 8px;border-radius:999px;font-family:var(--font-brand);font-weight:700;font-size:.62rem;letter-spacing:1.1px}
+.level-badge.n1{background:rgba(16,185,129,.3);color:#a7f3d0;border:1px solid rgba(16,185,129,.5)}
+.level-badge.n2{background:rgba(245,158,11,.3);color:#fde68a;border:1px solid rgba(245,158,11,.5)}
+.level-badge.n3{background:rgba(239,68,68,.3);color:#fecaca;border:1px solid rgba(239,68,68,.5)}
+.scene-content.dark-text .level-badge.n1{color:#15803d}
+.scene-content.dark-text .level-badge.n2{color:#b45309}
+.scene-content.dark-text .level-badge.n3{color:#b91c1c}
+
+.callout{padding:18px 22px;border-radius:16px;margin:16px 0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.18);border-left:4px solid var(--secondary)}
+.scene-content.dark-text .callout{background:rgba(255,255,255,.78);border-color:rgba(26,43,60,.08);border-left-color:var(--secondary)}
+.callout.rule{border-left-color:var(--accent)}
+.callout.trap{border-left-color:var(--danger);background:rgba(0,0,0,.42)}
+.scene-content.dark-text .callout.trap{background:rgba(239,68,68,.08)}
+.callout.gold{border-left-color:var(--warning);background:rgba(0,0,0,.38)}
+.scene-content.dark-text .callout.gold{background:rgba(245,158,11,.08)}
+.callout h4{margin:0 0 9px;font-family:var(--font-brand);font-weight:700;font-size:.76rem;text-transform:uppercase;letter-spacing:1.7px;color:#9eeaef;text-shadow:none}
+.callout.trap h4{color:#fca5a5}
+.callout.gold h4{color:#fcd34d}
+.scene-content.dark-text .callout h4{color:var(--primary)}
+.scene-content.dark-text .callout.trap h4{color:var(--danger)}
+.scene-content.dark-text .callout.gold h4{color:#b45309}
+.callout p,.callout li{margin:.3em 0;font-size:.93rem;line-height:1.6;text-shadow:none}
+.callout code{background:rgba(0,0,0,.4);padding:1px 7px;border-radius:5px;font-size:.85em;font-family:'SF Mono',Menlo,monospace}
+.scene-content.dark-text .callout code{background:rgba(26,43,60,.08);color:var(--primary)}
+.callout ul,.callout ol{margin:.3em 0;padding-left:1.3em}
+
+.decision{background:rgba(0,0,0,.42);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.22);border-radius:18px;padding:22px 24px;margin:20px 0;box-shadow:0 12px 36px rgba(0,0,0,.35)}
+.scene-content.dark-text .decision{background:rgba(255,255,255,.88);border-color:rgba(26,43,60,.1);box-shadow:0 12px 36px rgba(26,43,60,.12)}
+.decision .q{font-family:var(--font-display);font-weight:500;font-size:1.1rem;margin:0 0 14px;line-height:1.4;text-shadow:none}
+.decision .options{display:flex;flex-direction:column;gap:9px}
+.decision .opt{text-align:left;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.22);padding:12px 16px;border-radius:11px;cursor:pointer;font-family:var(--font-body);font-size:.93rem;color:inherit;transition:.18s;font-weight:400;text-shadow:none}
+.scene-content.dark-text .decision .opt{background:rgba(255,255,255,.6);border-color:rgba(26,43,60,.12)}
+.decision .opt:hover:not(.locked){border-color:var(--secondary);background:rgba(29,202,211,.18);transform:translateX(3px)}
+.decision .opt.correct{border-color:var(--success);background:rgba(16,185,129,.22);font-weight:500}
+.decision .opt.wrong{border-color:var(--danger);background:rgba(239,68,68,.18)}
+.decision .opt.locked{cursor:default}
+.decision .feedback{margin-top:14px;padding:14px 16px;border-radius:10px;font-size:.9rem;line-height:1.6;animation:fadeUp .3s;text-shadow:none}
+.decision .feedback.ok{background:rgba(16,185,129,.2);border-left:4px solid var(--success)}
+.decision .feedback.bad{background:rgba(239,68,68,.16);border-left:4px solid var(--danger)}
+.scene-content.dark-text .decision .feedback.ok{background:rgba(16,185,129,.12)}
+.scene-content.dark-text .decision .feedback.bad{background:rgba(239,68,68,.08)}
+
+.scene-inner table{width:100%;border-collapse:collapse;margin:16px 0;font-family:var(--font-body);font-size:.88rem;border-radius:12px;overflow:hidden;backdrop-filter:blur(8px);background:rgba(0,0,0,.3)}
+.scene-content.dark-text table{background:rgba(255,255,255,.65)}
+.scene-inner thead{background:linear-gradient(135deg,rgba(29,202,211,.5),rgba(42,125,225,.5))}
+.scene-content.dark-text thead{background:linear-gradient(135deg,#1DCAD3,#2A7DE1)}
+.scene-inner thead th{padding:10px 13px;text-align:left;font-weight:600;font-size:.78rem;letter-spacing:.5px;text-shadow:none}
+.scene-content.dark-text thead th{color:#fff}
+.scene-inner tbody td{padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.1);font-weight:400;vertical-align:top;text-shadow:none}
+.scene-content.dark-text tbody td{border-color:rgba(26,43,60,.08)}
+.scene-inner tbody tr:last-child td{border-bottom:none}
+
+.roster{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:20px 0}
+.rcard{padding:16px 12px;text-align:center;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.18);border-radius:14px;backdrop-filter:blur(10px);transition:.25s}
+.rcard:hover{transform:translateY(-3px);background:rgba(0,0,0,.4)}
+.rcard .silhouette{width:38px;height:48px;margin:0 auto 7px}
+.rcard .n{font-family:var(--font-brand);font-weight:700;font-size:.82rem;text-shadow:none}
+.rcard .r{font-size:.68rem;opacity:.78;margin-top:2px;font-weight:300;text-shadow:none}
+
+.qbank-q{margin-bottom:22px;padding:20px 22px;background:rgba(255,255,255,.55);border-radius:14px;border:1px solid rgba(26,43,60,.08);box-shadow:0 4px 12px rgba(26,43,60,.06)}
+.qbank-q .stem{font-family:var(--font-display);font-weight:500;font-size:1rem;margin-bottom:12px;line-height:1.5}
+.qbank-q .stem .num{font-weight:700;color:var(--primary);margin-right:5px}
+.qbank-q .stem .star{color:var(--warning);margin-left:5px}
+.qbank-q .options{display:flex;flex-direction:column;gap:9px;margin:10px 0 0}
+.qbank-q .opt{text-align:left;background:#fff;border:1.5px solid rgba(26,43,60,.12);padding:11px 15px;border-radius:10px;cursor:pointer;font-family:var(--font-body);font-size:.92rem;color:var(--dark);transition:.18s;font-weight:400;width:100%;display:block;line-height:1.5}
+.qbank-q .opt:hover:not(.locked){border-color:var(--secondary);background:rgba(29,202,211,.08);transform:translateX(3px)}
+.qbank-q .opt.correct{border-color:var(--success);background:rgba(16,185,129,.18);color:#065f46;font-weight:500}
+.qbank-q .opt.wrong{border-color:var(--danger);background:rgba(239,68,68,.14);color:#991b1b;font-weight:500}
+.qbank-q .opt.locked{cursor:default}
+.qbank-q .feedback{margin-top:14px;padding:14px 16px;border-radius:10px;font-size:.9rem;line-height:1.6;animation:fadeUp .3s}
+.qbank-q .feedback.ok{background:rgba(16,185,129,.12);border-left:4px solid var(--success);color:#065f46}
+.qbank-q .feedback.bad{background:rgba(239,68,68,.08);border-left:4px solid var(--danger);color:#991b1b}
+.qbank-q .meta-row{display:flex;justify-content:space-between;margin-top:10px;font-size:.72rem;opacity:.7;font-style:italic}
+
+.rain-layer{position:absolute;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
+.raindrop{position:absolute;width:1.5px;height:48px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.45));animation:rain linear infinite}
+@keyframes rain{0%{transform:translateY(-100vh)}100%{transform:translateY(120vh)}}
+.stars-layer{position:absolute;inset:0;z-index:-3;pointer-events:none}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle linear infinite}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+
+.slide.active .scene-inner > *{animation:slideUp .7s cubic-bezier(.2,.7,.3,1) backwards}
+.slide.active .scene-inner > *:nth-child(1){animation-delay:.1s}
+.slide.active .scene-inner > *:nth-child(2){animation-delay:.18s}
+.slide.active .scene-inner > *:nth-child(3){animation-delay:.26s}
+.slide.active .scene-inner > *:nth-child(4){animation-delay:.34s}
+.slide.active .scene-inner > *:nth-child(5){animation-delay:.42s}
+.slide.active .scene-inner > *:nth-child(6){animation-delay:.50s}
+.slide.active .scene-inner > *:nth-child(7){animation-delay:.58s}
+.slide.active .scene-inner > *:nth-child(8){animation-delay:.66s}
+.slide.active .scene-inner > *:nth-child(9){animation-delay:.74s}
+@keyframes slideUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:linear-gradient(180deg,transparent,rgba(5,10,21,.65));pointer-events:none}
+.bottom-nav > *{pointer-events:auto}
+.nav-arrow{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.95);color:var(--primary);border:none;cursor:pointer;font-size:1.4rem;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.35);transition:.2s;font-family:var(--font-brand);font-weight:700}
+.nav-arrow:hover:not(:disabled){transform:scale(1.08);box-shadow:0 8px 22px rgba(0,0,0,.45)}
+.nav-arrow:disabled{opacity:.3;cursor:not-allowed;background:rgba(255,255,255,.4);color:rgba(255,255,255,.5)}
+.dots{display:flex;gap:9px;align-items:center;background:rgba(5,10,21,.55);padding:9px 15px;border-radius:999px;backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12)}
+.dots .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.35);border:none;cursor:pointer;padding:0;transition:.25s;position:relative}
+.dots .dot.active{background:#fff;transform:scale(1.5);box-shadow:0 0 10px rgba(255,255,255,.5)}
+.dots .dot:hover:not(.active){background:rgba(255,255,255,.65)}
+.dots .dot .tip{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(5,10,21,.92);color:#fff;padding:4px 9px;border-radius:6px;font-size:.7rem;white-space:nowrap;opacity:0;pointer-events:none;transition:.15s;font-family:var(--font-body);font-weight:500}
+.dots .dot:hover .tip{opacity:1}
+.counter{position:fixed;top:64px;right:18px;z-index:150;background:rgba(5,10,21,.55);color:#fff;padding:5px 12px;border-radius:999px;font-family:var(--font-brand);font-weight:600;font-size:.72rem;letter-spacing:.5px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12)}
+
+.usamedic-footer{margin-top:24px;padding:24px 22px;background:rgba(5,10,21,.05);color:var(--dark);text-align:center;border-top:1px solid rgba(26,43,60,.1);border-radius:12px}
+.usamedic-footer img{width:140px;margin-bottom:10px;opacity:.88}
+.usamedic-footer .tagline{font-family:var(--font-brand);font-weight:300;font-size:.78rem;opacity:.75;margin-bottom:12px}
+.usamedic-footer .links a{color:var(--primary);text-decoration:none;margin:0 8px;font-size:.76rem;font-weight:500}
+.usamedic-footer .sub{margin-top:14px;font-size:.66rem;opacity:.55;font-style:italic}
+
+.hint{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(5,10,21,.7);color:#fff;padding:7px 14px;border-radius:999px;font-size:.72rem;font-family:var(--font-body);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);z-index:140;animation:hintFade 4.5s ease-out forwards;pointer-events:none}
+@keyframes hintFade{0%,70%{opacity:1}100%{opacity:0;visibility:hidden}}
+
+@media (max-width:640px){
+  .topbar{padding:8px 14px}
+  .topbar .meta{display:none}
+  .scene-content{padding:36px 20px 84px}
+  .nav-arrow{width:44px;height:44px;font-size:1.2rem}
+  .bottom-nav{padding:10px 14px}
+  .counter{top:54px;right:12px;font-size:.66rem;padding:4px 9px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <img src="data:image/png;base64,__ISOTIPO_B64__" alt="USAMEDIC" />
+    <div>
+      <strong>USAMEDIC</strong>
+      <small>Médicos de Excelencia</small>
+    </div>
+  </div>
+  <div class="meta">
+    <span class="chip">CIS-2.16</span>
+    <span class="chip">Prevención Combinada · NTS 204</span>
+  </div>
+</header>
+
+<div id="root"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, Fragment } = React;
+
+const Sil = {
+  serums: (<svg viewBox="0 0 40 56" fill="none"><circle cx="20" cy="11" r="6" fill="currentColor"/><path d="M8 56 L8 28 Q8 19 20 19 Q32 19 32 28 L32 56 Z" fill="currentColor"/><path d="M14 32 Q14 38 20 38 Q26 38 26 32" stroke="rgba(255,255,255,.65)" strokeWidth="1.5" fill="none"/><circle cx="14" cy="38" r="1.5" fill="rgba(255,255,255,.65)"/><circle cx="26" cy="38" r="1.5" fill="rgba(255,255,255,.65)"/></svg>),
+  kevin: (<svg viewBox="0 0 40 56" fill="none"><circle cx="20" cy="11" r="6" fill="currentColor"/><path d="M8 56 L8 28 Q8 19 20 19 Q32 19 32 28 L32 56 Z" fill="currentColor"/><circle cx="20" cy="34" r="4" fill="rgba(255,255,255,.45)"/><line x1="14" y1="20" x2="26" y2="20" stroke="rgba(255,255,255,.55)" strokeWidth="1.5"/></svg>),
+  amigo: (<svg viewBox="0 0 40 56" fill="none"><circle cx="20" cy="11" r="6" fill="currentColor"/><path d="M8 56 L8 28 Q8 19 20 19 Q32 19 32 28 L32 56 Z" fill="currentColor"/><path d="M12 24 L28 24" stroke="rgba(255,255,255,.4)" strokeWidth="1.2"/><path d="M14 30 L26 30" stroke="rgba(255,255,255,.4)" strokeWidth="1.2"/></svg>),
+  luci: (<svg viewBox="0 0 40 56" fill="none"><circle cx="20" cy="11" r="6" fill="currentColor"/><path d="M8 56 L8 28 Q8 19 20 19 Q32 19 32 28 L32 56 Z" fill="currentColor"/><rect x="14" y="30" width="12" height="9" rx="1.5" fill="rgba(255,255,255,.7)"/><line x1="14" y1="33" x2="26" y2="33" stroke="currentColor" strokeWidth=".8"/></svg>),
+  norma: (<svg viewBox="0 0 40 56" fill="none"><path d="M8 8 L32 8 L32 50 Q20 56 8 50 Z" fill="currentColor"/><line x1="13" y1="18" x2="27" y2="18" stroke="rgba(255,255,255,.65)" strokeWidth="1.2"/><line x1="13" y1="24" x2="27" y2="24" stroke="rgba(255,255,255,.65)" strokeWidth="1.2"/><line x1="13" y1="30" x2="22" y2="30" stroke="rgba(255,255,255,.65)" strokeWidth="1.2"/><circle cx="20" cy="40" r="3" fill="rgba(255,255,255,.7)"/></svg>),
+};
+
+const CHARACTERS = {
+  serums: { name: "Tú", role: "SERUMS · Centro Comunitario", color: "#1BACE4" },
+  kevin: { name: "Kevin", role: "24 años · HSH · población clave", color: "#5eead4" },
+  amigo: { name: "Diego", role: "Amigo · víctima de violencia sexual", color: "#fb923c" },
+  luci: { name: "Luci", role: "Tutora · Voz docente", color: "#1DCAD3" },
+  norma: { name: "NTS 204-2023", role: "Prevención combinada VIH", color: "#f59e0b" },
+};
+
+const Silhouette = ({ who }) => (
+  <div className="silhouette" style={{color: CHARACTERS[who].color}}>{Sil[who]}</div>
+);
+
+const Character = ({ who, level, children }) => (
+  <div className={`character ${who}`}>
+    <Silhouette who={who} />
+    <div className="char-body">
+      <div className="char-name">
+        {CHARACTERS[who].name} <span className="role">· {CHARACTERS[who].role}</span>
+        {level && <span className={`level-badge ${level}`}>{level.toUpperCase()}</span>}
+      </div>
+      <p className="char-line">{children}</p>
+    </div>
+  </div>
+);
+
+const Mountains = ({ variant, color }) => {
+  const paths = {
+    distant: "M0,400 L0,260 Q120,200 220,230 Q320,255 420,210 Q540,170 660,220 Q780,260 900,200 Q1020,160 1140,225 L1200,250 L1200,400 Z",
+    mid: "M0,400 L0,290 Q100,240 200,275 Q300,310 400,255 Q500,210 620,260 L720,310 Q820,255 940,290 Q1060,320 1200,275 L1200,400 Z",
+    near: "M0,400 L0,330 Q80,295 160,320 Q260,355 360,310 Q460,275 580,315 Q680,345 800,305 Q920,275 1040,325 Q1140,360 1200,335 L1200,400 Z",
+  };
+  return (
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice">
+      <path d={paths[variant]} fill={color} />
+    </svg>
+  );
+};
+
+const Foreground = ({ color, withPeople }) => (
+  <svg viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+    <path d="M0,300 L0,180 Q100,150 220,165 Q320,175 380,155 L440,155 L440,135 L460,115 L500,135 L500,155 L560,155 Q620,150 700,170 Q820,200 940,175 Q1080,150 1200,180 L1200,300 Z" fill={color}/>
+    {withPeople && (
+      <Fragment>
+        <ellipse cx="380" cy="172" rx="4" ry="9" fill={color}/>
+        <circle cx="380" cy="160" r="2.5" fill={color}/>
+        <ellipse cx="395" cy="174" rx="3.5" ry="7" fill={color}/>
+        <circle cx="395" cy="164" r="2" fill={color}/>
+      </Fragment>
+    )}
+  </svg>
+);
+
+const SKIES = {
+  dawn: "linear-gradient(180deg,#FFE5C7 0%,#FFC88C 22%,#1BACE4 62%,#2A7DE1 100%)",
+  rainy: "linear-gradient(180deg,#5a6b7c 0%,#3a4b5c 50%,#1a2b3c 100%)",
+  noon: "linear-gradient(180deg,#eaf6fb 0%,#1DCAD3 55%,#1BACE4 100%)",
+  open: "linear-gradient(180deg,#a5d8f0 0%,#1BACE4 50%,#2A7DE1 100%)",
+  dusk: "linear-gradient(180deg,#FFC88C 0%,#FF8966 35%,#E55B4C 60%,#5a6b7c 100%)",
+  twilight: "linear-gradient(180deg,#FFB088 0%,#5a6b7c 28%,#1a2b3c 65%,#0a1525 100%)",
+  night: "linear-gradient(180deg,#0a1525 0%,#1a2b3c 70%,#2A7DE1 100%)",
+  morning: "linear-gradient(180deg,#FFE5C7 0%,#1DCAD3 40%,#2A7DE1 100%)",
+  pure: "linear-gradient(180deg,#eaf6fb 0%,#f5fbfd 60%,#ffffff 100%)",
+};
+
+const Slide = ({ index, active, sky, mountainColors, foregroundColor, sun, withRain, withStars, withPeople, darkText, children }) => {
+  const distantRef = useRef(null);
+  const midRef = useRef(null);
+  const nearRef = useRef(null);
+  const foreRef = useRef(null);
+  const sunRef = useRef(null);
+
+  useEffect(() => {
+    if (!active) return;
+    const onMove = (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+      if (distantRef.current) distantRef.current.style.transform = `translate3d(${x * -8}px, ${y * -4}px, 0)`;
+      if (midRef.current) midRef.current.style.transform = `translate3d(${x * -18}px, ${y * -8}px, 0)`;
+      if (nearRef.current) nearRef.current.style.transform = `translate3d(${x * -30}px, ${y * -12}px, 0)`;
+      if (foreRef.current) foreRef.current.style.transform = `translate3d(${x * -45}px, ${y * -18}px, 0)`;
+      if (sunRef.current) sunRef.current.style.transform = `translate3d(${x * -4}px, ${y * -2}px, 0)`;
+    };
+    window.addEventListener("mousemove", onMove);
+    return () => window.removeEventListener("mousemove", onMove);
+  }, [active]);
+
+  return (
+    <section className={`slide ${active ? "active" : ""}`} data-index={index}>
+      <div className="sky" style={{background: SKIES[sky]}}/>
+      {sun && (
+        <div ref={sunRef} className="celestial" style={{
+          width: sun.size, height: sun.size,
+          background: sun.color,
+          top: sun.top, left: sun.left,
+          boxShadow: sun.glow ? `0 0 ${sun.size * 0.7}px ${sun.color}66` : "none",
+          opacity: sun.opacity || 1,
+        }}/>
+      )}
+      {withStars && (
+        <div className="stars-layer">
+          {[...Array(70)].map((_, i) => (
+            <span key={i} className="star" style={{
+              top: `${Math.random()*65}%`, left: `${Math.random()*100}%`,
+              animationDuration: `${2 + Math.random()*4}s`,
+              animationDelay: `${Math.random()*3}s`,
+              width: `${1 + Math.random()*1.5}px`,
+              height: `${1 + Math.random()*1.5}px`,
+            }}/>
+          ))}
+        </div>
+      )}
+      {withRain && (
+        <div className="rain-layer">
+          {[...Array(45)].map((_, i) => (
+            <span key={i} className="raindrop" style={{
+              left: `${Math.random()*100}%`,
+              animationDuration: `${0.5 + Math.random()*0.7}s`,
+              animationDelay: `${Math.random()*1.5}s`,
+              opacity: 0.3 + Math.random()*0.5,
+            }}/>
+          ))}
+        </div>
+      )}
+      <div ref={distantRef} className="layer distant"><Mountains variant="distant" color={mountainColors[0]} /></div>
+      <div ref={midRef} className="layer mid"><Mountains variant="mid" color={mountainColors[1]} /></div>
+      <div ref={nearRef} className="layer near"><Mountains variant="near" color={mountainColors[2]} /></div>
+      <div ref={foreRef} className="layer fore"><Foreground color={foregroundColor} withPeople={withPeople}/></div>
+      <div className={`scene-content ${darkText ? "dark-text" : ""}`}>
+        <div className="scene-inner">{children}</div>
+      </div>
+    </section>
+  );
+};
+
+const Decision = ({ question, options, correct, explainOk, explainBad }) => {
+  const [picked, setPicked] = useState(null);
+  return (
+    <div className="decision">
+      <p className="q">{question}</p>
+      <div className="options">
+        {options.map((o, i) => {
+          let cls = "opt";
+          if (picked !== null) {
+            cls += " locked";
+            if (i === correct) cls += " correct";
+            else if (i === picked) cls += " wrong";
+          }
+          return (
+            <button key={i} className={cls}
+              onClick={() => picked === null && setPicked(i)}>
+              <strong>{String.fromCharCode(65 + i)}.</strong> {o}
+            </button>
+          );
+        })}
+      </div>
+      {picked !== null && (
+        <div className={`feedback ${picked === correct ? "ok" : "bad"}`}>
+          {picked === correct ? explainOk : explainBad}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const QBANK = [
+  {star:true,stem:"HSH 24 años, sano, VIH negativo hoy, sin exposición de riesgo en últimas 72h, depuración creatinina 95 ml/min. Tiene relaciones de riesgo planificadas y desea protección. ¿Conducta?",options:["PrEP a demanda 2-1-1 sin más estudios.","PrEP diaria con TDF/FTC 300/200 mg 1 tab/día + tamizaje basal completo + seguimiento mensual luego trimestral.","Iniciar PPE con TDF/3TC/DTG x 4 semanas.","Solo entregar condones."],correct:1,explain:"PrEP diaria TDF/FTC es elección estándar en HSH/MT/TS/parejas serodiscordantes ≥18a con CrCl ≥60 ml/min y sin exposición <72h. NTS 204-2023, p. 10-13.",diff:"media"},
+  {stem:"HSH 28 años llega por contacto sexual receptivo sin condón hace 36 horas con pareja de estado VIH desconocido. PR VIH negativa hoy. ¿Conducta?",options:["Tranquilizar y citar en 3 meses.","Iniciar PrEP diaria hoy.","Iniciar PPE con TDF/3TC/DTG 1 tab/día x 4 semanas + tamizaje + seguimiento 6 sem/3m/6m.","Solicitar carga viral del paciente y esperar."],correct:2,explain:"Exposición de riesgo <72h = PPE, no PrEP. Esquema TDF/3TC/DTG x 4 sem. Seguimiento serológico 6 sem, 3m, 6m. NTS 204, p. 15-16.",diff:"media"},
+  {star:true,stem:"Mujer 20 años trae a su pareja varón a tamizaje. ELLA es VIH(+) con CV indetectable hace 8 meses (TasP). ÉL es VIH negativo. ¿Qué ofreces a ÉL?",options:["No requiere nada porque ella es indetectable.","PrEP diaria opcional + condones + tamizaje periódico + seguimiento.","PPE con TDF/3TC/DTG inmediato.","Esperar a que ÉL tenga síntomas."],correct:1,explain:"Pareja serodiscordante = población clave para PrEP. TasP reduce el riesgo (I=I) pero PrEP refuerza si hay deseo o riesgo adicional. NTS 204, p. 10.",diff:"difícil"},
+  {stem:"Contraindicación específica de la PrEP a demanda (2-1-1) HSH:",options:["Edad >50 años.","Uso de anticonceptivos hormonales orales.","Hepatitis B crónica.","Diabetes tipo 2 controlada."],correct:2,explain:"Hepatitis B crónica → contraindicada PrEP a demanda (riesgo de exacerbación hepática al suspender TDF intermitente). PrEP no interacciona con AC hormonales ni alcohol. NTS 204, p. 13.",diff:"difícil"},
+  {stem:"Víctima de violación sexual <72h. ¿Paquete mínimo de manejo según NTS 204?",options:["Solo profilaxis VIH.","Tamizaje VIH/sífilis/Hep B/Hep C/embarazo + PPE VIH + profilaxis ITS (Ceftriaxona+Azitromicina+PNC benz) + anticoncepción emergencia + vacuna+IGHB Hep B si susceptible.","Solo anticoncepción de emergencia.","Esperar evaluación psicológica primero."],correct:1,explain:"Paquete integral NTS 204 p.15: tamizaje completo + PPE TDF/3TC/DTG 4 sem + profilaxis ITS empírica + AE + vacuna Hep B+IGHB si no vacunada. Activar ruta de protección. NTS 204, p. 15-16.",diff:"difícil"},
+  {stem:"Seguimiento de paciente en PrEP diaria estable. ¿Frecuencia y exámenes?",options:["Solo anual con creatinina.","Cita al mes y luego cada 3 meses con PR VIH + creatinina + tamizaje ITS.","Solo cuando hay síntomas.","Mensual con CV y CD4."],correct:1,explain:"Seguimiento PrEP NTS 204 p.13: 1ra visita al mes, luego c/3 meses. Cada visita: PR VIH + creatinina + tamizaje ITS. No requiere CD4/CV salvo conversión.",diff:"media"},
+];
+
+const QBankItem = ({ q, idx }) => {
+  const [picked, setPicked] = useState(null);
+  return (
+    <div className="qbank-q">
+      <div className="stem">
+        <span className="num">{String(idx + 1).padStart(2,"0")}</span> {q.stem} {q.star && <span className="star">★</span>}
+      </div>
+      <div className="options">
+        {q.options.map((o, i) => {
+          let cls = "opt";
+          if (picked !== null) {
+            cls += " locked";
+            if (i === q.correct) cls += " correct";
+            else if (i === picked) cls += " wrong";
+          }
+          return (
+            <button key={i} className={cls}
+              onClick={() => picked === null && setPicked(i)}>
+              <strong>{String.fromCharCode(65 + i)}.</strong> {o}
+            </button>
+          );
+        })}
+      </div>
+      {picked !== null && (
+        <div className={`feedback ${picked === q.correct ? "ok" : "bad"}`}>
+          {q.explain}
+        </div>
+      )}
+      <div className="meta-row">
+        <span>Dificultad: {q.diff}</span>
+        <span>NTS 204-2023 · Prevención Combinada</span>
+      </div>
+    </div>
+  );
+};
+
+const SCENES = [
+  { label:"Apertura", sky:"dawn", mountainColors:["#1BACE4","#2A7DE1","#1a2b3c"], foregroundColor:"#0a1525", sun:{size:120,color:"#FFB088",top:"18%",left:"68%",glow:true,opacity:.85} },
+  { label:"Kevin llega", sky:"rainy", mountainColors:["#2a3b4c","#1a2b3c","#0a1525"], foregroundColor:"#050a15", withRain:true, withPeople:true },
+  { label:"Paquete básico", sky:"noon", mountainColors:["#1BACE4","#2A7DE1","#1a2b3c"], foregroundColor:"#0a1525", sun:{size:80,color:"#FFFFFF",top:"10%",left:"50%",glow:true,opacity:.7}, darkText:true },
+  { label:"PrEP — pre", sky:"open", mountainColors:["#2A7DE1","#1a2b3c","#0a1525"], foregroundColor:"#050a15", sun:{size:80,color:"#FFE5C7",top:"15%",left:"15%",glow:true} },
+  { label:"PPE — post 72h", sky:"dusk", mountainColors:["#E55B4C","#5a6b7c","#1a2b3c"], foregroundColor:"#0a1525", sun:{size:140,color:"#FF8966",top:"52%",left:"72%",glow:true} },
+  { label:"Diego: violencia", sky:"twilight", mountainColors:["#5a6b7c","#1a2b3c","#0a1525"], foregroundColor:"#050a15", sun:{size:60,color:"#F5F5DC",top:"22%",left:"22%",glow:true,opacity:.9} },
+  { label:"Seguimiento", sky:"night", mountainColors:["#1a2b3c","#0a1525","#050a15"], foregroundColor:"#020410", withStars:true, sun:{size:50,color:"#F5F5DC",top:"12%",left:"80%",glow:true,opacity:.95} },
+  { label:"Cierre · 12 meses", sky:"morning", mountainColors:["#1DCAD3","#2A7DE1","#1a2b3c"], foregroundColor:"#0a1525", sun:{size:130,color:"#FFE5C7",top:"22%",left:"72%",glow:true}, darkText:true },
+  { label:"Q-Bank", sky:"pure", mountainColors:["#eaf6fb","#d4ecf3","#bdd9e6"], foregroundColor:"#a5cad9", darkText:true },
+];
+
+const App = () => {
+  const [idx, setIdx] = useState(0);
+  const [showHint, setShowHint] = useState(true);
+  const total = SCENES.length;
+  const touchStart = useRef(null);
+
+  const go = (n) => {
+    const next = Math.max(0, Math.min(total - 1, n));
+    if (next !== idx) {
+      setIdx(next);
+      requestAnimationFrame(() => {
+        document.querySelectorAll(".scene-content").forEach(el => el.scrollTop = 0);
+      });
+    }
+  };
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); go(idx + 1); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); go(idx - 1); }
+      else if (e.key === "Home") { e.preventDefault(); go(0); }
+      else if (e.key === "End") { e.preventDefault(); go(total - 1); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [idx]);
+
+  useEffect(() => {
+    const t = setTimeout(() => setShowHint(false), 5000);
+    return () => clearTimeout(t);
+  }, []);
+
+  const onTouchStart = (e) => { touchStart.current = e.touches[0].clientX; };
+  const onTouchEnd = (e) => {
+    if (touchStart.current === null) return;
+    const delta = e.changedTouches[0].clientX - touchStart.current;
+    if (Math.abs(delta) > 60) {
+      if (delta < 0) go(idx + 1); else go(idx - 1);
+    }
+    touchStart.current = null;
+  };
+
+  return (
+    <Fragment>
+      <div className="counter">{String(idx + 1).padStart(2,"0")} / {String(total).padStart(2,"0")} · {SCENES[idx].label}</div>
+
+      <div className="carousel" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+        <div className="track" style={{transform: `translateX(-${idx * 100}vw)`}}>
+
+          <Slide index={0} active={idx === 0} {...SCENES[0]}>
+            <p className="eyebrow">CIS-2.16 · Storytelling SERUMS</p>
+            <h1>Kevin y la <em>prevención combinada</em></h1>
+            <p className="narration">
+              Prevención del VIH antes y después de la exposición. Kevin llega con una pregunta
+              que cambia su vida. Más tarde, Diego trae otra urgencia. Vives el algoritmo:
+              <em> antes de 72h o después, qué pides, qué entregas, cómo sigues</em>.
+            </p>
+            <div className="tagline-row">
+              <span className="pill">NTS 204-2023 · Prev Comb VIH</span>
+              <span className="pill">PrEP · PPE · TasP · Condón</span>
+              <span className="pill">9 capítulos · 6 preguntas</span>
+            </div>
+            <h2 style={{marginTop:"32px"}}>El reparto</h2>
+            <div className="roster">
+              {Object.entries(CHARACTERS).map(([k, c]) => (
+                <div key={k} className="rcard">
+                  <Silhouette who={k}/>
+                  <div className="n">{c.name}</div>
+                  <div className="r">{c.role}</div>
+                </div>
+              ))}
+            </div>
+            <div className="callout gold">
+              <h4>La regla de oro</h4>
+              <p>72 horas es la línea divisoria. <em>Antes</em> de la exposición → PrEP. <em>Después</em> y dentro de 72h → PPE. La PR VIH negativa el mismo día es el portero para ambas.</p>
+              <p style={{opacity:.85,fontSize:".88rem",marginTop:"8px"}}>
+                I=I (Indetectable = Intransmisible) reduce, pero no reemplaza prevención biomédica + condón.
+              </p>
+            </div>
+          </Slide>
+
+          <Slide index={1} active={idx === 1} {...SCENES[1]}>
+            <p className="eyebrow">Capítulo I · Lunes 18:30</p>
+            <h1>Kevin <em>quiere protegerse</em></h1>
+            <p className="narration">
+              Kevin, 24 años, llega al centro comunitario. Se identifica como HSH (hombre que tiene
+              sexo con hombres). Pareja estable con CV desconocida. <em>Sin exposición de riesgo en últimas 72h</em>.
+            </p>
+            <Character who="kevin">
+              Doctor, vi por redes lo de la pastilla azul de prevención. ¿Yo podría tomarla?
+              Mi último examen fue hace un año y salió negativo. Pero quiero estar seguro siempre.
+            </Character>
+            <Character who="luci" level="n1">
+              Antes de hablar de PrEP, descarta tres cosas: (1) ¿es ≥18 años? (2) ¿no hay exposición &lt;72h?
+              (3) ¿pertenece a población clave? Solo después caracteriza creatinina e infección aguda.
+            </Character>
+            <Character who="norma" level="n1">
+              NTS 204, p. 10: poblaciones de alto riesgo son HSH, mujeres trans (MT), trabajadoras/es sexuales (TS) y parejas serodiscordantes. La PrEP <em>se ofrece</em> a ellos como parte del paquete básico.
+            </Character>
+            <Decision
+              question="¿Qué pides hoy ANTES de prescribir PrEP a Kevin?"
+              options={[
+                "Solo prueba rápida VIH.",
+                "PR VIH (mismo día negativa) + creatinina con depuración ≥60 ml/min + tamizaje ITS + HBsAg + descartar infección aguda + consejería.",
+                "CD4 + CV obligatorios.",
+                "PrEP empírica sin estudios porque el paciente lo pide.",
+              ]}
+              correct={1}
+              explainOk="Correcto. Paquete basal PrEP: PR VIH(-) hoy, CrCl ≥60, tamizaje ITS+HBsAg, descartar agudo. CD4/CV NO se piden (es VIH negativo). NTS 204, p. 10-11."
+              explainBad="No basta una PR. Hay que asegurar CrCl ≥60, descartar infección aguda y tamizar ITS. PrEP a personas con falla renal o sin estudios es peligroso. NTS 204, p. 10-11."
+            />
+          </Slide>
+
+          <Slide index={2} active={idx === 2} {...SCENES[2]}>
+            <p className="eyebrow">Capítulo II · El paquete</p>
+            <h1>Siete piezas, <em>una estrategia</em></h1>
+            <p className="narration">
+              La prevención combinada no es PrEP suelta. Es un paquete que tiene siete piezas operativas.
+              Kevin se lleva más de una pastilla.
+            </p>
+            <table>
+              <thead><tr><th>Componente</th><th>Detalle operativo</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Preservativos</strong></td><td>HSH/MT/TS: 144 masculinos + 25 lubricantes/mes · Parejas serodiscordantes: 20 + 5/mes</td></tr>
+                <tr><td><strong>Tamizaje periódico</strong></td><td>VIH · sífilis · Hep B · Hep C · gonorrea · clamidia</td></tr>
+                <tr><td><strong>Vacunación Hep B</strong></td><td>Esquema 0-1-6 si susceptible; incluida en el paquete</td></tr>
+                <tr><td><strong>PrEP</strong></td><td>TDF/FTC en VIH-negativos de alto riesgo</td></tr>
+                <tr><td><strong>PPE</strong></td><td>ARV dentro de 72h post-exposición de riesgo</td></tr>
+                <tr><td><strong>TasP (I=I)</strong></td><td>CV indetectable = intransmisible vía sexual</td></tr>
+                <tr><td><strong>Manejo ITS</strong></td><td>Sindrómico y etiológico (NTS 240)</td></tr>
+              </tbody>
+            </table>
+            <Character who="luci" level="n2">
+              Estrategia compuesta. Cada componente reduce el riesgo independiente; juntos lo llevan a casi cero.
+              No abandones uno por confiar en otro: PrEP no evita gonorrea, condón no evita VIH si se rompe.
+            </Character>
+            <p style={{fontSize:".85rem",opacity:.85,marginTop:"8px"}}>NTS 204-2023, p. 10.</p>
+          </Slide>
+
+          <Slide index={3} active={idx === 3} {...SCENES[3]}>
+            <p className="eyebrow">Capítulo III · Rama PrEP</p>
+            <h1>Diaria o <em>a demanda</em></h1>
+            <Character who="luci" level="n2">
+              Hay dos modalidades. La diaria sirve para todos. La a-demanda (2-1-1) es <em>solo</em> para HSH
+              con relaciones infrecuentes y planificables, y <em>está contraindicada en hepatitis B crónica</em>.
+            </Character>
+            <table>
+              <thead><tr><th>Modalidad</th><th>Esquema</th><th>Indicación</th></tr></thead>
+              <tbody>
+                <tr><td><strong>PrEP diaria</strong></td><td>TDF/FTC 300/200 mg · 1 tab c/24h</td><td>HSH · MT · TS · parejas serodiscordantes</td></tr>
+                <tr><td><strong>PrEP 2-1-1</strong></td><td>2 tab 2-24h antes · 1 tab a las 24h · 1 tab a las 48h post</td><td>Solo HSH con relaciones ≤2/sem planificables</td></tr>
+              </tbody>
+            </table>
+            <div className="callout trap">
+              <h4>Trampa de la PrEP a demanda</h4>
+              <p>Contraindicada en Hep B crónica: al suspender TDF de forma intermitente puede reactivar hepatitis. Antes de 2-1-1, descartar HBsAg(+). NTS 204, p. 13.</p>
+            </div>
+            <div className="callout rule">
+              <h4>Interacciones — qué SÍ y qué NO</h4>
+              <ul>
+                <li>NO afecta anticonceptivos hormonales.</li>
+                <li>NO interacciona con terapia hormonal (trans).</li>
+                <li>NO interacciona con alcohol ni sustancias psicoactivas.</li>
+                <li>Vigilar función renal (CrCl) cada visita.</li>
+              </ul>
+              <p style={{marginTop:"8px"}}>NTS 204, p. 13-15.</p>
+            </div>
+          </Slide>
+
+          <Slide index={4} active={idx === 4} {...SCENES[4]}>
+            <p className="eyebrow">Capítulo IV · Rama PPE · Diego</p>
+            <h1>Diego entra <em>asustado</em></h1>
+            <p className="narration">
+              22:10. Diego, 28 años, amigo de Kevin. Hace 36 horas tuvo relación sexual no consentida.
+              Trae el reporte policial. PR VIH negativa hoy.
+            </p>
+            <Character who="amigo">
+              No quiero pensar lo que pasó. Solo dime si todavía estoy a tiempo.
+            </Character>
+            <Character who="luci" level="n2">
+              36 horas. Aún dentro de las 72 horas. PPE indicada. El reloj corre: cada hora que pasa
+              después de 72 reduce la eficacia. No esperes resultados confirmatorios para iniciar.
+            </Character>
+            <div className="callout rule">
+              <h4>PPE — esquema de elección (4 semanas)</h4>
+              <table>
+                <thead><tr><th>Esquema</th><th>Dosis</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>TDF/3TC/DTG</strong> (1ra)</td><td>1 tab TDF/3TC c/24h + DTG 50 mg c/24h</td></tr>
+                  <tr><td>TDF/FTC + DRV 800 + rtv 100</td><td>Según tabla</td></tr>
+                  <tr><td>TDF/FTC + LPV/rtv</td><td>Solo si no hay anteriores</td></tr>
+                </tbody>
+              </table>
+              <p style={{marginTop:"8px"}}>NTS 204, p. 16.</p>
+            </div>
+            <div className="callout gold">
+              <h4>Paquete violencia sexual (NTS 204 p. 15)</h4>
+              <ol>
+                <li><strong>Tamizaje:</strong> VIH · sífilis · Hep B · Hep C · embarazo.</li>
+                <li><strong>PPE VIH:</strong> TDF/3TC/DTG x 4 sem.</li>
+                <li><strong>Profilaxis ITS:</strong> Ceftriaxona 500 mg IM DU + Azitromicina 1 g VO DU + PNC benz 2.4 MUI IM DU.</li>
+                <li><strong>Anticoncepción de emergencia</strong> (si aplica).</li>
+                <li><strong>Vacuna Hep B</strong> + IGHB 0.06 ml/kg IM si susceptible (preferible &lt;48h).</li>
+                <li><strong>Seguimiento serológico:</strong> VIH 6 sem, 3 y 6 meses; sífilis a las 6 semanas.</li>
+                <li><strong>Activar ruta de protección</strong> y soporte psicológico.</li>
+              </ol>
+            </div>
+          </Slide>
+
+          <Slide index={5} active={idx === 5} {...SCENES[5]}>
+            <p className="eyebrow">Capítulo V · PrEP vs PPE · decisión rápida</p>
+            <h1>72 horas, <em>la línea</em></h1>
+            <p className="narration">
+              La misma molécula (TDF) sostiene dos lógicas opuestas: antes (PrEP) y después (PPE).
+              Confundirlas tiene consecuencias clínicas serias.
+            </p>
+            <table>
+              <thead><tr><th>Variable</th><th>PrEP</th><th>PPE</th></tr></thead>
+              <tbody>
+                <tr><td>Exposición &lt;72h</td><td>NO debe haber</td><td>SÍ es el disparador</td></tr>
+                <tr><td>Duración</td><td>Continua mientras haya riesgo</td><td>4 semanas exactas</td></tr>
+                <tr><td>Esquema</td><td>TDF/FTC</td><td>TDF/3TC/DTG (3 fármacos)</td></tr>
+                <tr><td>Edad</td><td>≥18 años (norma peruana)</td><td>Cualquier edad con exposición</td></tr>
+                <tr><td>Seguimiento</td><td>1m, luego c/3m con CrCl + ITS</td><td>VIH a 6 sem, 3m, 6m</td></tr>
+                <tr><td>Si infección aguda</td><td>Contraindicada → cambiar a TAR</td><td>Convertir a TAR si seroconversión</td></tr>
+              </tbody>
+            </table>
+            <Character who="norma" level="n3">
+              Trampa de examen: paciente con exposición de riesgo &lt;72h → PPE, no PrEP. Si se inicia PrEP
+              en infección aguda no detectada se generan resistencias. NTS 204, p. 10-16.
+            </Character>
+          </Slide>
+
+          <Slide index={6} active={idx === 6} {...SCENES[6]}>
+            <p className="eyebrow">Capítulo VI · Seguimiento y poblaciones clave</p>
+            <h1>El que no se sigue, <em>se pierde</em></h1>
+            <div className="callout rule">
+              <h4>Seguimiento PrEP — NTS 204 p. 13</h4>
+              <ul>
+                <li>Cita al <strong>1 mes</strong>: PR VIH + adherencia + tolerancia.</li>
+                <li>Luego <strong>cada 3 meses</strong>: PR VIH + creatinina + tamizaje ITS + entrega de insumos.</li>
+                <li>Verificar Hep B; revacunar si Anti-HBs &lt; 10 UI/mL.</li>
+                <li>Si seroconversión: pasar a TAR estándar de inmediato.</li>
+              </ul>
+            </div>
+            <div className="callout rule">
+              <h4>Seguimiento PPE</h4>
+              <ul>
+                <li>Iniciar HOY, no esperar resultados.</li>
+                <li>VIH a las <strong>6 semanas, 3 meses y 6 meses</strong>.</li>
+                <li>Sífilis a las 6 semanas.</li>
+                <li>Si convierte: pasar a TAR + estudio confirmatorio.</li>
+              </ul>
+              <p style={{marginTop:"8px"}}>NTS 204, p. 16.</p>
+            </div>
+            <Character who="luci" level="n3">
+              Población clave no es etiqueta — es estrategia. La epidemia VIH en Perú está concentrada
+              en HSH/MT/TS. Donde hay cascada de prevención completa, la incidencia cae.
+            </Character>
+            <Character who="kevin">
+              Doctor, vengo cada 3 meses sin falta. Y traigo a mis amigos cuando puedo.
+            </Character>
+          </Slide>
+
+          <Slide index={7} active={idx === 7} {...SCENES[7]}>
+            <p className="eyebrow">Cierre · Doce meses después</p>
+            <h1>Cero seroconversiones <em>en el grupo</em></h1>
+            <p className="narration">
+              Kevin lleva 12 meses en PrEP diaria. PR VIH siempre negativa. Trajo a tres amigos.
+              Diego completó las 4 semanas de PPE, seroconversión negativa a 6 meses. Vacuna Hep B
+              completa. Ambos usan condón en relaciones casuales como respaldo.
+            </p>
+            <div className="callout gold">
+              <h4>La regla de oro · prevención combinada</h4>
+              <p style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:"1.05rem"}}>
+                Antes de la exposición → PrEP. Después y &lt;72h → PPE. Siempre tamizar, vacunar, entregar condón y aplicar 4C.
+              </p>
+              <table style={{marginTop:"12px"}}>
+                <thead><tr><th>Estrategia</th><th>Reducción aproximada del riesgo VIH</th></tr></thead>
+                <tbody>
+                  <tr><td>Condón consistente</td><td>~80%</td></tr>
+                  <tr><td>PrEP diaria con adherencia alta</td><td>&gt;95%</td></tr>
+                  <tr><td>PPE iniciada &lt;72h</td><td>~80%</td></tr>
+                  <tr><td>TasP (CV indetectable)</td><td>Cercano a 100% vía sexual</td></tr>
+                </tbody>
+              </table>
+              <p style={{marginTop:"12px",fontStyle:"italic"}}>
+                Cada herramienta sola es buena. Combinadas, cierran la ventana.
+              </p>
+            </div>
+          </Slide>
+
+          <Slide index={8} active={idx === 8} {...SCENES[8]}>
+            <p className="eyebrow" style={{color:"var(--primary)"}}>Epílogo · Q-Bank ENAM</p>
+            <h1>Seis preguntas, <em>en frío</em></h1>
+            <p className="narration">
+              Después de Kevin y Diego, las preguntas tienen peso. La frontera de 72h
+              es el bisturí: define todo lo que sigue.
+            </p>
+            {QBANK.map((q, i) => <QBankItem key={i} q={q} idx={i} />)}
+            <div className="callout">
+              <h4>Reglas de seguridad para clase</h4>
+              <ul>
+                <li><code>source_gated · tema_delimitado</code>. NTS 204 marca el paquete; no mezcles PTMI/RN expuesto con prevención combinada.</li>
+                <li>PrEP requiere edad ≥18, VIH(-) hoy, CrCl ≥60, sin exposición &lt;72h.</li>
+                <li>Violencia sexual = paquete integral, no PPE aislada.</li>
+              </ul>
+            </div>
+            <div className="usamedic-footer">
+              <img src="data:image/png;base64,__LOGO_B64__" alt="USAMEDIC · Médicos de Excelencia"/>
+              <div className="tagline">Preparación Residentado Médico · ENAM · Internado</div>
+              <div className="links">
+                <a href="https://www.usamedic.pe">usamedic.pe</a> ·
+                <a href="https://facebook.com/usamedic">Facebook</a> ·
+                <a href="https://instagram.com/usamedic">Instagram</a> ·
+                <a href="https://youtube.com/usamedic">YouTube</a>
+              </div>
+              <div className="sub">
+                CIS-2.16 · Prevención Combinada VIH · Storytelling cinematográfico · Dreyfus N1+N2+N3
+              </div>
+            </div>
+          </Slide>
+
+        </div>
+      </div>
+
+      {showHint && (
+        <div className="hint">← → o desliza para navegar · ↓ para leer más dentro de cada capítulo</div>
+      )}
+
+      <div className="bottom-nav">
+        <button className="nav-arrow" onClick={() => go(idx - 1)} disabled={idx === 0} aria-label="Anterior">←</button>
+        <div className="dots">
+          {SCENES.map((s, i) => (
+            <button key={i} className={`dot ${i === idx ? "active" : ""}`}
+              onClick={() => go(i)} aria-label={s.label}>
+              <span className="tip">{s.label}</span>
+            </button>
+          ))}
+        </div>
+        <button className="nav-arrow" onClick={() => go(idx + 1)} disabled={idx === total - 1} aria-label="Siguiente">→</button>
+      </div>
+    </Fragment>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
